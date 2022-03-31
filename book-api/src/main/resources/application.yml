@@ -2,6 +2,8 @@ server:
   servlet:
     context-path: /bookshop/api
   port: 8080
+userapi:
+  address: http://localhost:8081
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bookshop
