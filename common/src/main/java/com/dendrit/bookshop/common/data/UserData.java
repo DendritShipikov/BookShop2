@@ -1,13 +1,18 @@
 package com.dendrit.bookshop.common.data;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Set;
 
 public class UserData {
 
+    @ApiModelProperty(notes = "User id")
     private Long id;
 
+    @ApiModelProperty(notes = "Username")
     private String username;
 
+    @ApiModelProperty(notes = "Set of roles")
     private Set<Role> roles;
 
     public UserData(Long id, String username, Set<Role> roles) {

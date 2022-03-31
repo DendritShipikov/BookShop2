@@ -1,9 +1,13 @@
-package com.dendrit.bookshop.common.data;
+package com.dendrit.bookshop.userapi.data;
+
+import io.swagger.annotations.ApiModelProperty;
 
 public class UserLoginForm {
 
+    @ApiModelProperty(notes = "Username", required = true)
     private String username;
 
+    @ApiModelProperty(notes = "Password", required = true)
     private String password;
 
     public UserLoginForm(String username, String password) {
