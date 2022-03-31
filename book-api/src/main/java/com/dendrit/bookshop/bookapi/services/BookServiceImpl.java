@@ -97,7 +97,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id = " + id + " does not exist"));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
-        if (!userData.getRoles().contains(Role.ADMIN) && !userData.getId().equals(book.getUserId())) {
+        if (!userData.getRoles().contains(Role.ADMIN) || !userData.getId().equals(book.getUserId())) {
             throw new UserHasNoAuthorityException("user have no authorities to change book");
         }
         bookRepository.delete(book);
