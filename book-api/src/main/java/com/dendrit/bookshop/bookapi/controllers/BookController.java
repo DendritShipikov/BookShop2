@@ -3,6 +3,11 @@ package com.dendrit.bookshop.bookapi.controllers;
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.BookDataPage;
 import com.dendrit.bookshop.bookapi.services.BookService;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,44 +24,86 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    @Operation(summary = "Get page of books")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return page of books")
+    })
     @GetMapping
-    public BookDataPage books(@RequestParam Integer page, @RequestParam Integer size) {
+    public BookDataPage books(
+            @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
+            @Parameter(description = "Size of page") @RequestParam Integer size) {
         return bookService.getAll(page, size);
     }
 
+    @Operation(summary = "Get book by id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return book"),
+            @ApiResponse(code = 404, message = "Book not found")
+    })
     @GetMapping("/{id}")
-    public BookData getBook(@PathVariable Long id) {
+    public BookData getBook(@Parameter(description = "Id of book to be selected") @PathVariable Long id) {
         return bookService.getById(id);
     }
 
+    @Operation(summary = "Get page of books by search query")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return page of books"),
+    })
     @GetMapping("/search/title")
-    public BookDataPage searchBooksByTitle(@RequestParam String query, @RequestParam Integer page, @RequestParam Integer size) {
+    public BookDataPage searchBooksByTitle(
+            @Parameter(description = "Search query") @RequestParam String query,
+            @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
+            @Parameter(description = "Size of page") @RequestParam Integer size) {
         return bookService.searchByTitle(query, page, size);
     }
 
+    @Operation(summary = "Get page of books by user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return page of books"),
+    })
     @GetMapping("/user/{userId}")
-    public BookDataPage getBooksByUserId(@PathVariable Long userId, @RequestParam Integer page, @RequestParam Integer size) {
+    public BookDataPage getBooksByUserId(
+            @Parameter(description = "User id") @PathVariable Long userId,
+            @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
+            @Parameter(description = "Size of page") @RequestParam Integer size) {
         return bookService.getByUserId(userId, page, size);
     }
 
+    @Operation(summary = "Save book in database")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Book saved"),
+            @ApiResponse(code = 403, message = "User hasn't authority to save book")
+    })
     @PostMapping
-    public ResponseEntity<BookData> saveBook(@RequestBody BookData bookData) {
+    public ResponseEntity<BookData> saveBook(@Parameter(description = "Book to be saved") @RequestBody BookData bookData) {
         bookService.save(bookData);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(bookData);
     }
 
+    @Operation(summary = "Update book in database")
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Book updated"),
+            @ApiResponse(code = 403, message = "User hasn't authority to update book")
+    })
     @PutMapping("/{id}")
-    public ResponseEntity<BookData> editBook(@RequestBody BookData bookData, @PathVariable Long id) {
+    public ResponseEntity<BookData> editBook(
+            @Parameter(description = "New book data") @RequestBody BookData bookData,
+            @Parameter(description = "Id of book to be updated") @PathVariable Long id) {
         bookService.edit(bookData, id);
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(bookData);
     }
 
+    @Operation(summary = "Delete book from database")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Book deleted"),
+            @ApiResponse(code = 403, message = "User hasn't authority to delete book")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBook(@Parameter(description = "Id of book to be deleted") @PathVariable Long id) {
         bookService.deleteById(id);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
