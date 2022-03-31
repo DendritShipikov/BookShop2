@@ -1,0 +1,13 @@
+server:
+  servlet:
+    context-path: /bookshop/api
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookshop
+    username: dendrit
+    password: qazwsx
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
