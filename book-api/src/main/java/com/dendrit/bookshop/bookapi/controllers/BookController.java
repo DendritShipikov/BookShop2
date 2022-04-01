@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(path = "/books")
 public class BookController {
@@ -75,7 +77,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "User hasn't authority to save book")
     })
     @PostMapping
-    public ResponseEntity<BookData> saveBook(@Parameter(description = "Book to be saved") @RequestBody BookData bookData) {
+    public ResponseEntity<BookData> saveBook(@Parameter(description = "Book to be saved") @RequestBody @Valid BookData bookData) {
         bookService.save(bookData);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -89,7 +91,7 @@ public class BookController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<BookData> editBook(
-            @Parameter(description = "New book data") @RequestBody BookData bookData,
+            @Parameter(description = "New book data") @RequestBody @Valid BookData bookData,
             @Parameter(description = "Id of book to be updated") @PathVariable Long id) {
         bookService.edit(bookData, id);
         return ResponseEntity

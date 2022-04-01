@@ -2,15 +2,22 @@ package com.dendrit.bookshop.bookapi.data;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class BookData {
 
     @ApiModelProperty(notes = "Id")
     private Long id;
 
     @ApiModelProperty(notes = "Title")
+    @NotNull
+    @NotEmpty(message = "Book title can't be empty")
     private String title;
 
     @ApiModelProperty(notes = "Author(s)")
+    @NotNull
+    @NotEmpty(message = "Book author can't be empty")
     private String author;
 
     @ApiModelProperty(notes = "Id of user, who owns this book")
