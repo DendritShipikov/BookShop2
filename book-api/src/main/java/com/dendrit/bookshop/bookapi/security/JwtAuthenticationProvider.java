@@ -2,6 +2,8 @@ package com.dendrit.bookshop.bookapi.security;
 
 import com.dendrit.bookshop.common.data.UserData;
 import com.dendrit.bookshop.common.jwt.util.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationProvider.class);
+
     @Value("${userapi.address}")
     private String USERAPI;
 
@@ -31,7 +35,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String token = authentication.getCredentials().toString();
         Long id = JwtUtil.getUserIdFromToken(token);
+        LOGGER.debug("authenticate user with id = " + id);
         UserData userData = restTemplate.getForObject(USERAPI + "/bookshop/api/users/{id}", UserData.class, id);
+        LOGGER.debug("userData = {id = " + userData.getId() + ", username = '" + userData.getUsername() + "', roles = " + userData.getRoles().toString() + "}");
         Set<SimpleGrantedAuthority> authorities =
                 userData.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.name())).collect(Collectors.toSet());
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(userData, null, authorities);
