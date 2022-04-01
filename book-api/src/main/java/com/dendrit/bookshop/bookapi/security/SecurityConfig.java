@@ -23,9 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/books").hasAnyAuthority(Role.PUBLISHER.name(), Role.ADMIN.name())
-                .antMatchers(HttpMethod.PUT, "/books/*").hasAnyAuthority(Role.PUBLISHER.name(), Role.ADMIN.name())
-                .antMatchers(HttpMethod.DELETE, "/books/*").hasAnyAuthority(Role.PUBLISHER.name(), Role.ADMIN.name())
+                .antMatchers(HttpMethod.POST, "/books").access("hasAnyAuthority('PUBLISHER', 'ADMIN')")
+                .antMatchers(HttpMethod.PUT, "/books/{id}").access("@bookAccessChecker.check(authentication, #id)")
+                .antMatchers(HttpMethod.DELETE, "/books/{id}").access("@bookAccessChecker.check(authentication, #id)")
                 .anyRequest().permitAll();
     }
 

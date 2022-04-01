@@ -10,6 +10,8 @@ public class UserLoginForm {
     @ApiModelProperty(notes = "Password", required = true)
     private String password;
 
+    public UserLoginForm() {}
+
     public UserLoginForm(String username, String password) {
         this.username = username;
         this.password = password;

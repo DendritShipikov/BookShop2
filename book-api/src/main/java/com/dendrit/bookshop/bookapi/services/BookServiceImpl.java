@@ -78,14 +78,13 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void edit(BookData bookData, Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id = " + id + " does not exist"));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
-        if (!userData.getId().equals(book.getUserId())) {
-            throw new UserHasNoAuthorityException("user have no authorities to change book");
-        }
+        Book book = new Book();
         bookData.setId(id);
         bookData.setUserId(userData.getId());
+        book.setId(id);
+        book.setUserId(userData.getId());
         book.setTitle(bookData.getTitle());
         book.setAuthor(bookData.getAuthor());
         bookRepository.save(book);
@@ -94,13 +93,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id = " + id + " does not exist"));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserData userData = (UserData) authentication.getPrincipal();
-        if (!userData.getRoles().contains(Role.ADMIN) || !userData.getId().equals(book.getUserId())) {
-            throw new UserHasNoAuthorityException("user have no authorities to change book");
-        }
-        bookRepository.delete(book);
+        bookRepository.deleteById(id);
     }
 
 }

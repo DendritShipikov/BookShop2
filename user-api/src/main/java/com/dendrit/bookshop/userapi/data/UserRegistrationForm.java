@@ -16,6 +16,8 @@ public class UserRegistrationForm {
     @ApiModelProperty(notes = "Set of roles", required = true)
     private Set<Role> roles;
 
+    public UserRegistrationForm() {}
+
     public UserRegistrationForm(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
