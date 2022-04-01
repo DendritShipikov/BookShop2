@@ -1,13 +1,19 @@
 package com.dendrit.bookshop.bookapi.data;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class BookData {
 
+    @ApiModelProperty(notes = "Id")
     private Long id;
 
+    @ApiModelProperty(notes = "Title")
     private String title;
 
+    @ApiModelProperty(notes = "Author(s)")
     private String author;
 
+    @ApiModelProperty(notes = "Id of user, who owns this book")
     private Long userId;
 
     public Long getId() {

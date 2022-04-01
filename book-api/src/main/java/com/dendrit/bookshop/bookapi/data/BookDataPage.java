@@ -1,13 +1,18 @@
 package com.dendrit.bookshop.bookapi.data;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
 public class BookDataPage {
 
+    @ApiModelProperty(notes = "List of books")
     private List<BookData> bookDataList;
 
+    @ApiModelProperty("Total amount of books")
     private long count;
 
+    @ApiModelProperty("Page size * index of the page")
     private long offset;
 
     public BookDataPage(List<BookData> bookDataList, long count, long offset) {
