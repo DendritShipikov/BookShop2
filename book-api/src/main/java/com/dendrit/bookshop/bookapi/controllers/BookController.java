@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/books")
 public class BookController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookController.class);
 
     private BookService bookService;
 
@@ -34,6 +38,7 @@ public class BookController {
     public BookDataPage books(
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
             @Parameter(description = "Size of page") @RequestParam Integer size) {
+        LOGGER.info("GET /books");
         return bookService.getAll(page, size);
     }
 
@@ -44,6 +49,7 @@ public class BookController {
     })
     @GetMapping("/{id}")
     public BookData getBook(@Parameter(description = "Id of book to be selected") @PathVariable Long id) {
+        LOGGER.info("GET /books/" + id);
         return bookService.getById(id);
     }
 
@@ -56,6 +62,7 @@ public class BookController {
             @Parameter(description = "Search query") @RequestParam String query,
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
             @Parameter(description = "Size of page") @RequestParam Integer size) {
+        LOGGER.info("GET /books/search/title");
         return bookService.searchByTitle(query, page, size);
     }
 
@@ -68,6 +75,7 @@ public class BookController {
             @Parameter(description = "User id") @PathVariable Long userId,
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
             @Parameter(description = "Size of page") @RequestParam Integer size) {
+        LOGGER.info("GET /books/user/" + userId);
         return bookService.getByUserId(userId, page, size);
     }
 
@@ -78,6 +86,7 @@ public class BookController {
     })
     @PostMapping
     public ResponseEntity<BookData> saveBook(@Parameter(description = "Book to be saved") @RequestBody @Valid BookData bookData) {
+        LOGGER.info("POST /books, book = {title = '" + bookData.getTitle() + "', author = '" + bookData.getAuthor() + "'}");
         bookService.save(bookData);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -93,6 +102,7 @@ public class BookController {
     public ResponseEntity<BookData> editBook(
             @Parameter(description = "New book data") @RequestBody @Valid BookData bookData,
             @Parameter(description = "Id of book to be updated") @PathVariable Long id) {
+        LOGGER.info("PUT /books/" + id + ", book = {title = '" + bookData.getTitle() + "', author = '" + bookData.getAuthor() + "'}");
         bookService.edit(bookData, id);
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
@@ -106,6 +116,7 @@ public class BookController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@Parameter(description = "Id of book to be deleted") @PathVariable Long id) {
+        LOGGER.info("DELETE /books/" + id);
         bookService.deleteById(id);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
