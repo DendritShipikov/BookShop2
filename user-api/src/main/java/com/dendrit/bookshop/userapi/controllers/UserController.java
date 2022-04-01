@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     private UserService userService;
 
@@ -34,6 +38,7 @@ public class UserController {
     })
     @GetMapping("/{id}")
     public UserData getById(@Parameter(description = "Id of user to be selected") @PathVariable Long id) {
+        LOGGER.info("GET /users/" + id);
         return userService.getUserById(id);
     }
 
@@ -45,6 +50,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserData> register(
             @Parameter(description = "Registration form") @RequestBody @Valid UserRegistrationForm registrationForm) {
+        LOGGER.info("POST /users/register, username = " + registrationForm.getUsername());
         UserData userData = userService.registration(registrationForm);
         return ResponseEntity.status(HttpStatus.CREATED).body(userData);
     }
@@ -58,6 +64,7 @@ public class UserController {
     @PostMapping("/token")
     public ResponseEntity<String> generateToken(
             @Parameter(description = "Username-password pair")@RequestBody UserLoginForm loginForm) throws IncorrectPasswordException {
+        LOGGER.info("POST /users/token, username = " + loginForm.getUsername());
         String token = userService.generateToken(loginForm);
         return ResponseEntity.ok().body(token);
     }
