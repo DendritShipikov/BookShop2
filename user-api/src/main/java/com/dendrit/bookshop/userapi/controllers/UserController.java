@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -42,7 +44,7 @@ public class UserController {
     })
     @PostMapping("/register")
     public ResponseEntity<UserData> register(
-            @Parameter(description = "Registration form") @RequestBody UserRegistrationForm registrationForm) {
+            @Parameter(description = "Registration form") @RequestBody @Valid UserRegistrationForm registrationForm) {
         UserData userData = userService.registration(registrationForm);
         return ResponseEntity.status(HttpStatus.CREATED).body(userData);
     }
