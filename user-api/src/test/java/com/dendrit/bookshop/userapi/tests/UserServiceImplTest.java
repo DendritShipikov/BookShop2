@@ -1,0 +1,102 @@
+package com.dendrit.bookshop.userapi.tests;
+
+import com.dendrit.bookshop.common.data.Role;
+import com.dendrit.bookshop.common.data.UserData;
+import com.dendrit.bookshop.common.jwt.util.JwtUtil;
+import com.dendrit.bookshop.userapi.data.UserLoginForm;
+import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
+import com.dendrit.bookshop.userapi.entities.User;
+import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;
+import com.dendrit.bookshop.userapi.exceptions.UserAlreadyExistException;
+import com.dendrit.bookshop.userapi.repositories.UserRepository;
+import com.dendrit.bookshop.userapi.services.UserServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+import java.util.Set;
+
+public class UserServiceImplTest {
+
+    UserRepository userRepository = Mockito.mock(UserRepository.class);
+
+    PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
+
+    UserServiceImpl userService;
+
+    @BeforeEach
+    public void init() {
+        userService = new UserServiceImpl();
+        userService.setUserRepository(userRepository);
+        userService.setPasswordEncoder(passwordEncoder);
+    }
+
+    @Test
+    public void getUserByIdTest() {
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user1()));
+        UserData userData = userService.getUserById(1L);
+        Assertions.assertEquals(userData.getId(), 1L);
+        Assertions.assertEquals(userData.getUsername(), "user1");
+        Assertions.assertEquals(userData.getRoles(), Set.of(Role.USER));
+    }
+
+    @Test
+    public void registrationTest_IfExist() {
+        Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
+        Mockito.when(passwordEncoder.encode("1")).thenReturn("1");
+        Assertions.assertThrows(UserAlreadyExistException.class, () -> {
+            UserData userData = userService.registration(new UserRegistrationForm("user1", "1", Set.of(Role.USER)));
+        });
+    }
+
+    @Test
+    public void registrationTest() {
+        Mockito.when(userRepository.findByUsername("user2")).thenReturn(Optional.empty());
+        Mockito.when(userRepository.save(Mockito.any())).thenReturn(user2());
+        Mockito.when(passwordEncoder.encode("2")).thenReturn("2e");
+        UserData userData = userService.registration(new UserRegistrationForm("user2", "2", Set.of(Role.USER)));
+        Assertions.assertEquals(userData.getId(), 2L);
+        Assertions.assertEquals(userData.getUsername(), "user2");
+        Assertions.assertEquals(userData.getRoles(), Set.of(Role.USER));
+    }
+
+    @Test
+    public void generateTokenTest() throws IncorrectPasswordException {
+        Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
+        Mockito.when(passwordEncoder.matches("1", "1e")).thenReturn(true);
+        String token = userService.generateToken(new UserLoginForm("user1", "1"));
+    }
+
+    @Test
+    public void generateTokenTest_IfIncorrectPassword() {
+        Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
+        Mockito.when(passwordEncoder.matches("2", "1e")).thenReturn(false);
+        Assertions.assertThrows(IncorrectPasswordException.class, () -> {
+            userService.generateToken(new UserLoginForm("user1", "2"));
+        });
+        Mockito.verify(userRepository).findByUsername("user1");
+        Mockito.verify(passwordEncoder).matches("2", "1e");
+    }
+
+    private User user1() {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("user1");
+        user.setPassword("1e");
+        user.setRoles(Set.of(Role.USER));
+        return user;
+    }
+
+    private User user2() {
+        User user = new User();
+        user.setId(2L);
+        user.setUsername("user2");
+        user.setPassword("2e");
+        user.setRoles(Set.of(Role.USER));
+        return user;
+    }
+
+}
