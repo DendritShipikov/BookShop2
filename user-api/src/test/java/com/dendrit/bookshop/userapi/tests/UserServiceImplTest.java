@@ -2,7 +2,6 @@ package com.dendrit.bookshop.userapi.tests;
 
 import com.dendrit.bookshop.common.data.Role;
 import com.dendrit.bookshop.common.data.UserData;
-import com.dendrit.bookshop.common.jwt.util.JwtUtil;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.entities.User;
@@ -48,18 +47,14 @@ public class UserServiceImplTest {
     @Test
     public void getUserByIdTest_IfNotFound() {
         Mockito.when(userRepository.findById(3L)).thenReturn(Optional.empty());
-        Assertions.assertThrows(UserNotFoundException.class, () -> {
-            userService.getUserById(3L);
-        });
+        Assertions.assertThrows(UserNotFoundException.class, () -> userService.getUserById(3L));
         Mockito.verify(userRepository).findById(3L);
     }
 
     @Test
     public void registrationTest_IfExist() {
         Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
-        Assertions.assertThrows(UserAlreadyExistException.class, () -> {
-            UserData userData = userService.registration(new UserRegistrationForm("user1", "1", Set.of(Role.USER)));
-        });
+        Assertions.assertThrows(UserAlreadyExistException.class, () -> userService.registration(new UserRegistrationForm("user1", "1", Set.of(Role.USER))));
         Mockito.verify(userRepository).findByUsername("user1");
     }
 
@@ -89,9 +84,7 @@ public class UserServiceImplTest {
     public void generateTokenTest_IfIncorrectPassword() {
         Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
         Mockito.when(passwordEncoder.matches("2", "1e")).thenReturn(false);
-        Assertions.assertThrows(IncorrectPasswordException.class, () -> {
-            userService.generateToken(new UserLoginForm("user1", "2"));
-        });
+        Assertions.assertThrows(IncorrectPasswordException.class, () -> userService.generateToken(new UserLoginForm("user1", "2")));
         Mockito.verify(userRepository).findByUsername("user1");
         Mockito.verify(passwordEncoder).matches("2", "1e");
     }
@@ -99,9 +92,7 @@ public class UserServiceImplTest {
     @Test
     public void generateTokenTest_IfNotFound() {
         Mockito.when(userRepository.findByUsername("user3")).thenReturn(Optional.empty());
-        Assertions.assertThrows(UserNotFoundException.class, () -> {
-            userService.generateToken(new UserLoginForm("user3", "3"));
-        });
+        Assertions.assertThrows(UserNotFoundException.class, () -> userService.generateToken(new UserLoginForm("user3", "3")));
         Mockito.verify(userRepository).findByUsername("user3");
     }
 
