@@ -1,9 +1,10 @@
 package com.dendrit.bookshop.userapi.controllers;
 
-import com.dendrit.bookshop.common.data.UserData;
+import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;
+import com.dendrit.bookshop.userapi.services.JwtService;
 import com.dendrit.bookshop.userapi.services.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -26,9 +27,16 @@ public class UserController {
 
     private UserService userService;
 
+    private JwtService jwtService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setJwtService(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
     @Operation(summary = "Get user by id")
@@ -67,6 +75,17 @@ public class UserController {
         LOGGER.info("POST /users/token, username = " + loginForm.getUsername());
         String token = userService.generateToken(loginForm);
         return ResponseEntity.ok().body(token);
+    }
+
+    @Operation(summary = "Validate token")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return id of  user"),
+            @ApiResponse(code = 401, message = "Bad token")
+    })
+    @GetMapping("/validate")
+    public ResponseEntity<Long> validateToken(@RequestParam String token) {
+        Long id = jwtService.getUserIdFromToken(token);
+        return ResponseEntity.ok().body(id);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.userapi.services;
 
-import com.dendrit.bookshop.common.data.UserData;
+import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;

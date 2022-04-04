@@ -1,7 +1,7 @@
 package com.dendrit.bookshop.userapi.tests;
 
-import com.dendrit.bookshop.common.data.Role;
-import com.dendrit.bookshop.common.data.UserData;
+import com.dendrit.bookshop.userapi.data.Role;
+import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.entities.User;
@@ -9,6 +9,7 @@ import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;
 import com.dendrit.bookshop.userapi.exceptions.UserAlreadyExistException;
 import com.dendrit.bookshop.userapi.exceptions.UserNotFoundException;
 import com.dendrit.bookshop.userapi.repositories.UserRepository;
+import com.dendrit.bookshop.userapi.services.JwtService;
 import com.dendrit.bookshop.userapi.services.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,8 @@ public class UserServiceImplTest {
 
     PasswordEncoder passwordEncoder = Mockito.mock(PasswordEncoder.class);
 
+    JwtService jwtService = Mockito.mock(JwtService.class);
+
     UserServiceImpl userService;
 
     @BeforeEach
@@ -32,6 +35,7 @@ public class UserServiceImplTest {
         userService = new UserServiceImpl();
         userService.setUserRepository(userRepository);
         userService.setPasswordEncoder(passwordEncoder);
+        userService.setJwtService(jwtService);
     }
 
     @Test
@@ -75,9 +79,11 @@ public class UserServiceImplTest {
     public void generateTokenTest() throws IncorrectPasswordException {
         Mockito.when(userRepository.findByUsername("user1")).thenReturn(Optional.of(user1()));
         Mockito.when(passwordEncoder.matches("1", "1e")).thenReturn(true);
-        userService.generateToken(new UserLoginForm("user1", "1"));
+        Mockito.when(jwtService.generateToken(1L)).thenReturn("tok");
+        Assertions.assertEquals(userService.generateToken(new UserLoginForm("user1", "1")), "tok");
         Mockito.verify(userRepository).findByUsername("user1");
         Mockito.verify(passwordEncoder).matches("1", "1e");
+        Mockito.verify(jwtService).generateToken(1L);
     }
 
     @Test

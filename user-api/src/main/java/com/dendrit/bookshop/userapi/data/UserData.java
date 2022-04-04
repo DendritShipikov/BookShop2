@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.common.data;
+package com.dendrit.bookshop.userapi.data;
 
 import io.swagger.annotations.ApiModelProperty;
 

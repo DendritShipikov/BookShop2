@@ -1,15 +1,20 @@
-package com.dendrit.bookshop.common.jwt.util;
+package com.dendrit.bookshop.userapi.services;
 
-import com.dendrit.bookshop.common.jwt.exceptions.BadJwtException;
+import com.dendrit.bookshop.userapi.exceptions.BadJwtException;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-public class JwtUtil {
+@Component
+public class JwtServiceImpl implements JwtService {
 
-    private static final String SECRET = "3dug_970gf";
+    @Value("${jwt.secret}")
+    private String SECRET;
 
-    public static String generateToken(Long id) {
+    @Override
+    public String generateToken(Long id) {
         Date now  = new Date();
         Date expiration = new Date(now.getTime() + 1000000);
         return Jwts.builder()
@@ -20,7 +25,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static Long getUserIdFromToken(String token) {
+    @Override
+    public Long getUserIdFromToken(String token) {
         try {
             String subject = Jwts.parser()
                     .setSigningKey(SECRET)
@@ -31,7 +37,6 @@ public class JwtUtil {
         } catch (MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException | SignatureException ex) {
             throw new BadJwtException("Bad JWT");
         }
-
     }
-    
+
 }

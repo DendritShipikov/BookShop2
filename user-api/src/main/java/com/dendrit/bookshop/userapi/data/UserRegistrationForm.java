@@ -1,6 +1,5 @@
 package com.dendrit.bookshop.userapi.data;
 
-import com.dendrit.bookshop.common.data.Role;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;

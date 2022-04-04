@@ -1,13 +1,12 @@
 package com.dendrit.bookshop.userapi.services;
 
-import com.dendrit.bookshop.common.data.UserData;
+import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.entities.User;
 import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;
 import com.dendrit.bookshop.userapi.exceptions.UserAlreadyExistException;
 import com.dendrit.bookshop.userapi.exceptions.UserNotFoundException;
-import com.dendrit.bookshop.common.jwt.util.JwtUtil;
 import com.dendrit.bookshop.userapi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +20,8 @@ public class UserServiceImpl implements UserService {
 
     private PasswordEncoder passwordEncoder;
 
+    private JwtService jwtService;
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -29,6 +30,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Autowired
+    public void setJwtService(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(loginForm.getPassword(), user.getPassword())) {
             throw new IncorrectPasswordException("Incorrect password");
         }
-        return JwtUtil.generateToken(user.getId());
+        return jwtService.generateToken(user.getId());
     }
 
     @Override

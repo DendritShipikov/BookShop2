@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.userapi.entities;
 
-import com.dendrit.bookshop.common.data.Role;
+import com.dendrit.bookshop.userapi.data.Role;
 
 import javax.persistence.*;
 import java.util.Set;

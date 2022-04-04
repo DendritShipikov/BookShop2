@@ -1,6 +1,6 @@
-package com.dendrit.bookshop.bookapi.advices;
+package com.dendrit.bookshop.userapi.advices;
 
-import com.dendrit.bookshop.common.jwt.exceptions.BadJwtException;
+import com.dendrit.bookshop.userapi.exceptions.BadJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

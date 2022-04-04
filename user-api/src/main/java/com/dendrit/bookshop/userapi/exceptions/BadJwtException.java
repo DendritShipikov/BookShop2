@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.common.jwt.exceptions;
+package com.dendrit.bookshop.userapi.exceptions;
 
 public class BadJwtException extends RuntimeException {
 
