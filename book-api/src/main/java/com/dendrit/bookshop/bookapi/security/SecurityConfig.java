@@ -1,6 +1,5 @@
 package com.dendrit.bookshop.bookapi.security;
 
-import com.dendrit.bookshop.common.data.Role;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

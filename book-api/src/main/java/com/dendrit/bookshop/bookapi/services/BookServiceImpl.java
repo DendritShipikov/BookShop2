@@ -2,11 +2,11 @@ package com.dendrit.bookshop.bookapi.services;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.BookDataPage;
+import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.exceptions.BookNotFoundException;
 import com.dendrit.bookshop.bookapi.mappers.BookMapper;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
-import com.dendrit.bookshop.common.data.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

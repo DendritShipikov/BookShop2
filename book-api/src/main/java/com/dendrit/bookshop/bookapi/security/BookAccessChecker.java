@@ -1,14 +1,16 @@
 package com.dendrit.bookshop.bookapi.security;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
+import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.services.BookService;
-import com.dendrit.bookshop.common.data.Role;
-import com.dendrit.bookshop.common.data.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class BookAccessChecker {
@@ -21,9 +23,13 @@ public class BookAccessChecker {
     }
 
     public boolean check(Authentication authentication, Long id) {
+        Set<String> authorities = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        if (authorities.contains("ADMIN")) return true;
+        if (!authorities.contains("PUBLISHER")) return false;
         UserData userData = (UserData) authentication.getPrincipal();
-        if (userData.getRoles().contains(Role.ADMIN)) return true;
-        if (!userData.getRoles().contains(Role.PUBLISHER)) return false;
         BookData bookData = bookService.getById(id);
         return Objects.equals(bookData.getUserId(), userData.getId());
     }
