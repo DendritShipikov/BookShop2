@@ -65,12 +65,11 @@ public class BookServiceImpl implements BookService {
     public void save(BookData bookData) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
+        bookData.setId(null);
+        bookData.setUserId(userData.getId());
         Book book = bookMapper.toEntity(bookData);
-        book.setId(null);
-        book.setUserId(userData.getId());
         book = bookRepository.save(book);
         bookData.setId(book.getId());
-        bookData.setUserId(userData.getId());
     }
 
     @Override
@@ -78,13 +77,9 @@ public class BookServiceImpl implements BookService {
     public void edit(BookData bookData, Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
-        Book book = new Book();
         bookData.setId(id);
         bookData.setUserId(userData.getId());
-        book.setId(id);
-        book.setUserId(userData.getId());
-        book.setTitle(bookData.getTitle());
-        book.setAuthor(bookData.getAuthor());
+        Book book = bookMapper.toEntity(bookData);
         bookRepository.save(book);
     }
 
