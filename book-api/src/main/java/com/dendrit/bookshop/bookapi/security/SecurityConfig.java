@@ -22,9 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/books").access("hasAnyAuthority('PUBLISHER', 'ADMIN')")
-                .antMatchers(HttpMethod.PUT, "/books/{id}").access("@bookAccessChecker.check(authentication, #id)")
-                .antMatchers(HttpMethod.DELETE, "/books/{id}").access("@bookAccessChecker.check(authentication, #id)")
+                .antMatchers(HttpMethod.POST, "/books").hasAnyAuthority("PUBLISHER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, "/books/{id}").hasAnyAuthority("PUBLISHER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/books/{id}").hasAnyAuthority("PUBLISHER", "ADMIN")
                 .anyRequest().permitAll();
     }
 
