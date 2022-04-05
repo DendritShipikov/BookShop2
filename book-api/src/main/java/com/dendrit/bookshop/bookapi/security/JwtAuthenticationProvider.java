@@ -23,7 +23,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationProvider.class);
 
     @Value("${userapi.address}")
-    private String USERAPI;
+    private String userApiBaseAddress;
 
     private RestTemplate restTemplate;
 
@@ -37,12 +37,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String token = authentication.getCredentials().toString();
         Long id;
         try {
-            id = restTemplate.getForObject(USERAPI + "/bookshop/api/users/validate?token=" + token, Long.class);
+            id = restTemplate.getForObject(userApiBaseAddress + "/bookshop/api/users/validate?token=" + token, Long.class);
         } catch (HttpClientErrorException exception) {
             if (exception.getStatusCode() == HttpStatus.UNAUTHORIZED) throw new BadCredentialsException("Bad JWT");
             throw exception;
         }
-        UserData userData = restTemplate.getForObject(USERAPI + "/bookshop/api/users/{id}", UserData.class, id);
+        UserData userData = restTemplate.getForObject(userApiBaseAddress + "/bookshop/api/users/{id}", UserData.class, id);
         LOGGER.info("userData = {id = " + userData.getId() + ", username = '" + userData.getUsername() + "', roles = "
                 + userData.getRoles().stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.toSet()) + "}");
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(userData, null, userData.getRoles());
