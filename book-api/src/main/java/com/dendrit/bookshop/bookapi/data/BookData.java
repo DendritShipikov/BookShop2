@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 public class BookData {
 
@@ -22,6 +23,15 @@ public class BookData {
 
     @ApiModelProperty(notes = "Id of user, who owns this book")
     private Long userId;
+
+    public BookData() {}
+
+    public BookData(Long id, String title, String author, Long userId) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;
@@ -62,5 +72,22 @@ public class BookData {
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookData bookData = (BookData) o;
+        return
+                Objects.equals(id, bookData.id) &&
+                Objects.equals(title, bookData.title) &&
+                Objects.equals(author, bookData.author) &&
+                Objects.equals(userId, bookData.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, userId);
     }
 }

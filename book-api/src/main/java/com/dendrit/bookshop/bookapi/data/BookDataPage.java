@@ -3,6 +3,7 @@ package com.dendrit.bookshop.bookapi.data;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BookDataPage {
 
@@ -43,5 +44,18 @@ public class BookDataPage {
 
     public void setOffset(long offset) {
         this.offset = offset;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDataPage that = (BookDataPage) o;
+        return count == that.count && offset == that.offset && Objects.equals(bookDataList, that.bookDataList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookDataList, count, offset);
     }
 }
