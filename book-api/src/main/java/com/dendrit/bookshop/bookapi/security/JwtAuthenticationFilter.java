@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,6 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private AuthenticationManager authenticationManager;
 
+    private AuthenticationEntryPoint authenticationEntryPoint = new JwtAuthenticationEntryPoint();
+
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -34,9 +38,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             LOGGER.debug("request has bearer authentication");
             String token = header.substring(BEARER_PREFIX.length());
             Authentication authentication = new JwtAuthenticationToken(null, token, null);
-            authentication = authenticationManager.authenticate(authentication);
-            LOGGER.debug("request authenticated");
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                authentication = authenticationManager.authenticate(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                LOGGER.debug("Set SecurityContextHolder to " + authentication);
+            } catch (AuthenticationException exception) {
+                SecurityContextHolder.clearContext();
+                LOGGER.debug("Fail to process authentication request", exception);
+                authenticationEntryPoint.commence(request, response, exception);
+                return;
+            }
         }
         filterChain.doFilter(request, response);
     }
