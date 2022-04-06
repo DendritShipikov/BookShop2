@@ -17,6 +17,8 @@ public class Book {
 
     private Long userId;
 
+    private int count;
+
     public Book() {}
 
     public Book(Long id, String title, String author, Long userId) {
@@ -56,5 +58,13 @@ public class Book {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

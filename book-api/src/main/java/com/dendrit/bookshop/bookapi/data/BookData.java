@@ -24,6 +24,8 @@ public class BookData {
     @ApiModelProperty(notes = "Id of user, who owns this book")
     private Long userId;
 
+    private int count;
+
     public BookData() {}
 
     public BookData(Long id, String title, String author, Long userId) {
@@ -93,5 +95,13 @@ public class BookData {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, author, userId);
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

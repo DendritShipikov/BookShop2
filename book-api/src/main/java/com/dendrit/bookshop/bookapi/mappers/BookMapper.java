@@ -14,6 +14,7 @@ public class BookMapper implements Mapper<Book, BookData> {
         entity.setTitle(data.getTitle());
         entity.setAuthor(data.getAuthor());
         entity.setUserId(data.getUserId());
+        entity.setCount(data.getCount());
         return entity;
     }
 
@@ -24,6 +25,7 @@ public class BookMapper implements Mapper<Book, BookData> {
         data.setTitle(entity.getTitle());
         data.setAuthor(entity.getAuthor());
         data.setUserId(entity.getUserId());
+        data.setCount(entity.getCount());
         return data;
     }
 }
