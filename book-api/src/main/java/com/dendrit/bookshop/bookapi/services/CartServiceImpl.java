@@ -36,6 +36,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addBookToCart(Long bookId) {
+        bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException("Book with id = '" + bookId + "' not found"));
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
         Long userId = userData.getId();
@@ -66,7 +68,8 @@ public class CartServiceImpl implements CartService {
         Iterable<CartItem> cartItems = cartItemRepository.findByUserId(userId);
         List<CartItemData> cartItemDataList = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
-            Book book = bookRepository.getById(cartItem.getBookId());
+            Book book = bookRepository.findById(cartItem.getBookId())
+                    .orElseThrow(() -> new BookNotFoundException("Book with id = '" + cartItem.getBookId() + "' not found"));
             CartItemData cartItemData = new CartItemData(
                     new BookData(book.getId(), book.getTitle(), book.getAuthor(), book.getUserId()),
                     cartItem.getBookCount());
