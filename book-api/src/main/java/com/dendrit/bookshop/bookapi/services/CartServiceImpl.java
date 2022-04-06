@@ -2,7 +2,6 @@ package com.dendrit.bookshop.bookapi.services;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.CartItemData;
-import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.entities.CartItemId;
@@ -11,8 +10,6 @@ import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.dendrit.bookshop.bookapi.util.UserUtil.getUserId;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -90,12 +89,6 @@ public class CartServiceImpl implements CartService {
     public void clearCart() {
         Long userId = getUserId();
         cartItemRepository.deleteAllByUserId(userId);
-    }
-
-    private Long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserData userData = (UserData) authentication.getPrincipal();
-        return userData.getId();
     }
 
 }

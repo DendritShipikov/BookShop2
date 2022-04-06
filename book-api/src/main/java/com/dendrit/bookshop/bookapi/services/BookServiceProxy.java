@@ -66,7 +66,7 @@ public class BookServiceProxy implements BookService {
         if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) && !userData.getId().equals(book.getUserId())) {
             throw new UserHasNoAuthorityException("User has no authority to edit the book");
         }
-        bookService.save(bookData);
+        bookService.edit(bookData, id);
     }
 
     @Override
