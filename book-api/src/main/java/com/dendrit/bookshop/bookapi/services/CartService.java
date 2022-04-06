@@ -12,4 +12,6 @@ public interface CartService {
 
     List<CartItemData> getCart();
 
+    void clearCart();
+
 }

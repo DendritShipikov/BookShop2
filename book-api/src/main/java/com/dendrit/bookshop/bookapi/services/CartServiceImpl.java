@@ -85,6 +85,13 @@ public class CartServiceImpl implements CartService {
         return cartItemDataList;
     }
 
+    @Override
+    @Transactional
+    public void clearCart() {
+        Long userId = getUserId();
+        cartItemRepository.deleteAllByUserId(userId);
+    }
+
     private Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
