@@ -7,15 +7,18 @@ import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.entities.CartItemId;
 import com.dendrit.bookshop.bookapi.exceptions.BookNotFoundException;
+import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -35,47 +38,48 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addBookToCart(Long bookId) {
+    @Transactional
+    public void addBookToCart(Long bookId, int bookCount) {
+        if (bookCount <= 0) throw new IllegalBookCountException("bookCount <= 0");
         bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException("Book with id = '" + bookId + "' not found"));
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserData userData = (UserData) authentication.getPrincipal();
-        Long userId = userData.getId();
+        Long userId = getUserId();
         CartItem cartItem = cartItemRepository.findById(new CartItemId(bookId, userId))
                 .orElse(new CartItem(bookId, userId, 0));
-        cartItem.setBookCount(cartItem.getBookCount() + 1);
+        cartItem.setBookCount(bookCount);
         cartItem = cartItemRepository.save(cartItem);
     }
 
     @Override
+    @Transactional
     public void deleteBookFromCart(Long bookId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserData userData = (UserData) authentication.getPrincipal();
-        Long userId = userData.getId();
+        Long userId = getUserId();
         CartItemId cartItemId = new CartItemId(bookId, userId);
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new BookNotFoundException("Book with id = '" + bookId + "' is not in users cart"));
-        cartItem.setBookCount(cartItem.getBookCount() - 1);
-        if (cartItem.getBookCount() == 0) {
-            cartItemRepository.deleteById(cartItemId);
-        } else {
-            cartItemRepository.save(cartItem);
-        }
+        cartItemRepository.delete(cartItem);
     }
 
     @Override
-    public List<CartItemData> getCartByUserId(Long userId) {
-        Iterable<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+    @Transactional
+    public List<CartItemData> getCartByUserId() {
+        Long userId = getUserId();
+        List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+        List<Long> bookIds = cartItems.stream().map(CartItem::getBookId).collect(Collectors.toList());
+        List<Book> books = bookRepository.findAllById(bookIds);
         List<CartItemData> cartItemDataList = new ArrayList<>();
-        for (CartItem cartItem : cartItems) {
-            Book book = bookRepository.findById(cartItem.getBookId())
-                    .orElseThrow(() -> new BookNotFoundException("Book with id = '" + cartItem.getBookId() + "' not found"));
-            CartItemData cartItemData = new CartItemData(
-                    new BookData(book.getId(), book.getTitle(), book.getAuthor(), book.getUserId()),
-                    cartItem.getBookCount());
-            cartItemDataList.add(cartItemData);
+        for (int i = 0; i < cartItems.size(); ++i) {
+            Book book = books.get(i);
+            BookData bookData = new BookData(book.getId(), book.getTitle(), book.getAuthor(), book.getUserId());
+            cartItemDataList.add(new CartItemData(bookData, cartItems.get(i).getBookCount()));
         }
         return cartItemDataList;
+    }
+
+    private Long getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserData userData = (UserData) authentication.getPrincipal();
+        return userData.getId();
     }
 
 }

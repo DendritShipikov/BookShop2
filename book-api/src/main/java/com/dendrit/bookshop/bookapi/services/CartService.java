@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface CartService {
 
-    void addBookToCart(Long bookId);
+    void addBookToCart(Long bookId, int bookCount);
 
     void deleteBookFromCart(Long bookId);
 
-    List<CartItemData> getCartByUserId(Long userId);
+    List<CartItemData> getCartByUserId();
 
 }
