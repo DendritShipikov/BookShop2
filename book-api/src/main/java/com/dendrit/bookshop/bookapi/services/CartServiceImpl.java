@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,13 +67,20 @@ public class CartServiceImpl implements CartService {
     public List<CartItemData> getCartByUserId() {
         Long userId = getUserId();
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
+        Map<Long, Integer> bookIdToBookCountMap = new HashMap<>();
+        for (CartItem cartItem : cartItems) {
+            bookIdToBookCountMap.put(cartItem.getBookId(), cartItem.getBookCount());
+        }
         List<Long> bookIds = cartItems.stream().map(CartItem::getBookId).collect(Collectors.toList());
         List<Book> books = bookRepository.findAllById(bookIds);
         List<CartItemData> cartItemDataList = new ArrayList<>();
-        for (int i = 0; i < cartItems.size(); ++i) {
-            Book book = books.get(i);
-            BookData bookData = new BookData(book.getId(), book.getTitle(), book.getAuthor(), book.getUserId());
-            cartItemDataList.add(new CartItemData(bookData, cartItems.get(i).getBookCount()));
+        for (Book book : books) {
+            BookData bookData = new BookData()
+                    .setUserId(book.getUserId())
+                    .setId(book.getId())
+                    .setAuthor(book.getAuthor())
+                    .setTitle(book.getTitle());
+            cartItemDataList.add(new CartItemData(bookData, bookIdToBookCountMap.get(bookData.getId())));
         }
         return cartItemDataList;
     }

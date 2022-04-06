@@ -37,32 +37,36 @@ public class BookData {
         return id;
     }
 
-    public void setId(Long id) {
+    public BookData setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public BookData setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public BookData setAuthor(String author) {
         this.author = author;
+        return this;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public BookData setUserId(Long userId) {
         this.userId = userId;
+        return this;
     }
 
     @Override
