@@ -20,7 +20,7 @@ public class CartController {
 
     @GetMapping("/cart/books")
     public List<CartItemData> getCart() {
-        return cartService.getCartByUserId();
+        return cartService.getCart();
     }
 
     @PutMapping("cart/books")

@@ -10,6 +10,6 @@ public interface CartService {
 
     void deleteBookFromCart(Long bookId);
 
-    List<CartItemData> getCartByUserId();
+    List<CartItemData> getCart();
 
 }

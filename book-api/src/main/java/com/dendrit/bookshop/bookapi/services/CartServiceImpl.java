@@ -64,7 +64,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public List<CartItemData> getCartByUserId() {
+    public List<CartItemData> getCart() {
         Long userId = getUserId();
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
         Map<Long, Integer> bookIdToBookCountMap = new HashMap<>();
