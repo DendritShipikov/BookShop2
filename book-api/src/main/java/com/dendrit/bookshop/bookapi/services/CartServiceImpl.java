@@ -78,17 +78,11 @@ public class CartServiceImpl implements CartService {
                     .setUserId(book.getUserId())
                     .setId(book.getId())
                     .setAuthor(book.getAuthor())
-                    .setTitle(book.getTitle());
+                    .setTitle(book.getTitle())
+                    .setCount(book.getCount());
             cartItemDataList.add(new CartItemData(bookData, bookIdToBookCountMap.get(bookData.getId())));
         }
         return cartItemDataList;
-    }
-
-    @Override
-    @Transactional
-    public void clearCart() {
-        Long userId = getUserId();
-        cartItemRepository.deleteAllByUserId(userId);
     }
 
 }

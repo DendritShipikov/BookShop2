@@ -49,6 +49,7 @@ public class BuyServiceImpl implements BuyService {
             book.setCount(book.getCount() - count);
         }
         bookRepository.saveAll(books);
+        cartItemRepository.deleteAllByUserId(userId);
     }
 
 }

@@ -101,7 +101,8 @@ public class BookData {
         return count;
     }
 
-    public void setCount(int count) {
+    public BookData setCount(int count) {
         this.count = count;
+        return this;
     }
 }
