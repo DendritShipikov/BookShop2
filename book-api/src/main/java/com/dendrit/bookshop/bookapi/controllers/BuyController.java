@@ -1,8 +1,8 @@
 package com.dendrit.bookshop.bookapi.controllers;
 
 import com.dendrit.bookshop.bookapi.services.BuyService;
-import com.dendrit.bookshop.bookapi.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +17,8 @@ public class BuyController {
     }
 
     @PostMapping("/books/buy")
-    public void buyAllFromCart() {
+    public ResponseEntity<Void> buyAllFromCart() {
         buyService.buyAllFromCart();
+        return ResponseEntity.accepted().build();
     }
 }
