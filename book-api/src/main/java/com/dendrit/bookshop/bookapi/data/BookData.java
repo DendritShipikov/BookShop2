@@ -28,11 +28,12 @@ public class BookData {
 
     public BookData() {}
 
-    public BookData(Long id, String title, String author, Long userId) {
+    public BookData(Long id, String title, String author, Long userId, int count) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.userId = userId;
+        this.count = count;
     }
 
     public Long getId() {
@@ -71,6 +72,15 @@ public class BookData {
         return this;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public BookData setCount(int count) {
+        this.count = count;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "BookData{" +
@@ -86,6 +96,7 @@ public class BookData {
         if (o == null || getClass() != o.getClass()) return false;
         BookData bookData = (BookData) o;
         return
+                count == bookData.count &&
                 Objects.equals(id, bookData.id) &&
                 Objects.equals(title, bookData.title) &&
                 Objects.equals(author, bookData.author) &&
@@ -94,15 +105,7 @@ public class BookData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, userId);
+        return Objects.hash(id, title, author, userId, count);
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public BookData setCount(int count) {
-        this.count = count;
-        return this;
-    }
 }

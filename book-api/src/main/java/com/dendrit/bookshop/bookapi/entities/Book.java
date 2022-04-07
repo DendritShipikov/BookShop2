@@ -21,11 +21,12 @@ public class Book {
 
     public Book() {}
 
-    public Book(Long id, String title, String author, Long userId) {
+    public Book(Long id, String title, String author, Long userId, int count) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.userId = userId;
+        this.count = count;
     }
 
     public Long getId() {
