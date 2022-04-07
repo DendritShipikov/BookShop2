@@ -24,8 +24,6 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
-    private JavaMailSender javaMailSender;
-
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -34,11 +32,6 @@ public class BuyServiceImpl implements BuyService {
     @Autowired
     public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-    }
-
-    @Autowired
-    public void setJavaMailSender(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
     }
 
     @Override
@@ -59,11 +52,6 @@ public class BuyServiceImpl implements BuyService {
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setSubject("BookShop");
-        message.setTo(UserUtil.getUserData().getUsername());
-        message.setText("Your order is accepted");
-        javaMailSender.send(message);
     }
 
 }

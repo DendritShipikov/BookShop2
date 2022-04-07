@@ -37,19 +37,4 @@ public class BookApiApplication {
                 .build();
     }
 
-    @Bean
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setUsername("<username>");
-        javaMailSender.setPassword("<password>");
-        javaMailSender.setPort(25);
-        javaMailSender.setHost("smtp.gmail.com");
-        Properties properties = javaMailSender.getJavaMailProperties();
-        properties.put("mail.transport.protocol", "smtp");
-        properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", true);
-        properties.put("mail.debug", true);
-        return javaMailSender;
-    }
-
 }

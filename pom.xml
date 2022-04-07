@@ -17,7 +17,8 @@
 	<modules>
 		<module>user-api</module>
 		<module>book-api</module>
-	</modules>
+        <module>notification-api</module>
+    </modules>
 
 	<properties>
 		<java.version>11</java.version>

@@ -77,15 +77,4 @@ public class UserController {
         return ResponseEntity.ok().body(token);
     }
 
-    @Operation(summary = "Validate token")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Return id of  user"),
-            @ApiResponse(code = 401, message = "Bad token")
-    })
-    @GetMapping("/validate")
-    public ResponseEntity<Long> validateToken(@RequestParam String token) {
-        Long id = jwtService.getUserIdFromToken(token);
-        return ResponseEntity.ok().body(id);
-    }
-
 }
