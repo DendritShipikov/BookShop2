@@ -7,9 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class UserUtil {
 
     public static Long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserData userData = (UserData) authentication.getPrincipal();
+        UserData userData = getUserData();
         return userData.getId();
+    }
+
+    public static UserData getUserData() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (UserData) authentication.getPrincipal();
     }
 
 }
