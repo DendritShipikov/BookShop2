@@ -1,7 +1,7 @@
 package com.dendrit.bookshop.internalauthapi.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Profile {
@@ -12,6 +12,10 @@ public class Profile {
     private String name;
 
     private String password;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<Authority> authorities;
 
     public Long getId() {
         return id;
@@ -37,4 +41,11 @@ public class Profile {
         this.password = password;
     }
 
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }
