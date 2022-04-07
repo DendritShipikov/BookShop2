@@ -27,16 +27,9 @@ public class UserController {
 
     private UserService userService;
 
-    private JwtService jwtService;
-
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
-    }
-
-    @Autowired
-    public void setJwtService(JwtService jwtService) {
-        this.jwtService = jwtService;
     }
 
     @Operation(summary = "Get user by id")

@@ -42,27 +42,4 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
-    @Override
-    public Long getUserIdFromToken(String token) {
-        try {
-            byte[] bytes = Base64.getDecoder().decode(key);
-            KeyFactory keyFactory = KeyFactory.getInstance("EC");
-            PrivateKey privateKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(bytes));
-            String subject = Jwts.parser()
-                    .setSigningKey(privateKey)
-                    .parseClaimsJws(token)
-                    .getBody()
-                    .getSubject();
-            return Long.valueOf(subject);
-        } catch (MalformedJwtException |
-                ExpiredJwtException |
-                UnsupportedJwtException |
-                IllegalArgumentException |
-                SignatureException |
-                NoSuchAlgorithmException |
-                InvalidKeySpecException ex) {
-            throw new BadJwtException("Bad JWT", ex);
-        }
-    }
-
 }
