@@ -1,0 +1,12 @@
+server:
+  servlet:
+    context-path: /bookshop/api
+  port: 8083
+internalauthapi:
+  address: http://localhost:8082/bookshop/api/internal/auth
+jwt:
+  key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
+internal:
+  auth:
+     name: notificationapi
+     password: notificationapi

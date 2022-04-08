@@ -1,5 +1,8 @@
 package com.dendrit.bookshop.bookapi.services;
 
+import com.dendrit.bookshop.bookapi.client.NotificationClient;
+import com.dendrit.bookshop.bookapi.data.Message;
+import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
@@ -24,6 +27,8 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
+    private NotificationClient notificationClient;
+
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -34,10 +39,16 @@ public class BuyServiceImpl implements BuyService {
         this.bookRepository = bookRepository;
     }
 
+    @Autowired
+    public void setNotificationClient(NotificationClient notificationClient) {
+        this.notificationClient = notificationClient;
+    }
+
     @Override
     @Transactional
     public void buyAllFromCart() {
-        Long userId = UserUtil.getUserId();
+        UserData userData = UserUtil.getUserData();
+        Long userId = userData.getId();
         List<CartItem> cartItems = cartItemRepository.findByUserId(userId);
         List<Long> ids = cartItems.stream().map(CartItem::getBookId).collect(Collectors.toList());
         List<Book> books = bookRepository.findAllById(ids);
@@ -52,6 +63,10 @@ public class BuyServiceImpl implements BuyService {
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
+        Message message = new Message();
+        message.setText("Your order");
+        message.setUserMail(userData.getUsername());
+        notificationClient.send(message);
     }
 
 }

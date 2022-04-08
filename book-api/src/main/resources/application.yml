@@ -4,6 +4,10 @@ server:
   port: 8080
 userapi:
   address: http://localhost:8081
+internalauthapi:
+  address: http://localhost:8082/bookshop/api/internal/auth
+notificationapi:
+  address: http://localhost:8083
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bookshop
@@ -15,3 +19,7 @@ spring:
       ddl-auto: update
 jwt:
   key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
+internal:
+  auth:
+     name: bookapi
+     password: bookapi
