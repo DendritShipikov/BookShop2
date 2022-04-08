@@ -9,4 +9,6 @@ public interface AuthService {
 
     ProfileData getProfileById(Long id);
 
+    void registration(String name, String password);
+
 }

@@ -28,4 +28,9 @@ public class AuthController {
         return authService.getProfileById(id);
     }
 
+    @PostMapping("/profile")
+    public void registration(@RequestBody TokenRequest tokenRequest) {
+        authService.registration(tokenRequest.getName(), tokenRequest.getPassword());
+    }
+
 }

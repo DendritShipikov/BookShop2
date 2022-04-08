@@ -1,6 +1,7 @@
 package com.dendrit.bookshop.internalauthapi.advices;
 
 import com.dendrit.bookshop.internalauthapi.exceptions.IncorrectPasswordException;
+import com.dendrit.bookshop.internalauthapi.exceptions.ProfileAlreadyExistException;
 import com.dendrit.bookshop.internalauthapi.exceptions.ProfileNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,12 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(ProfileNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String profileNotFoundHandler(ProfileNotFoundException exception) {
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(ProfileAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String profileAlreadyExistHandler(ProfileAlreadyExistException exception) {
         return exception.getMessage();
     }
 

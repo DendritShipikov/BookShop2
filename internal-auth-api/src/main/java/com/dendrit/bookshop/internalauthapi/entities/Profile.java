@@ -7,6 +7,7 @@ import java.util.Set;
 public class Profile {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private String name;
