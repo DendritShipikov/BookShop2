@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class TokenHolder {
@@ -37,9 +38,9 @@ public class TokenHolder {
     }
 
     public synchronized String updateToken(String token) {
-        if (!this.token.equals(token)) return this.token;
+        if (!Objects.equals(this.token, token)) return this.token;
         Map<String, String> headers = new HashMap<>();
-        TokenRequest tokenRequest = new TokenRequest();
+        TokenRequest tokenRequest = new TokenRequest(name, password);
         RestRequest<TokenRequest> restRequest = new RestRequest<>("POST", baseInternalAuthApiAddress + "/token", headers, tokenRequest);
         RestResponse<String> restResponse = simpleRestAdapter.execute(restRequest, String.class);
         if (restResponse.getStatusCode() >= 400) throw new RuntimeException("Error when updating token, status code = "
@@ -49,24 +50,21 @@ public class TokenHolder {
 
     private static class TokenRequest {
 
-        private String name;
+        private final String name;
 
-        private  String password;
+        private final String password;
+
+        public TokenRequest(String name, String password) {
+            this.name = name;
+            this.password = password;
+        }
 
         public String getName() {
             return name;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
         public String getPassword() {
             return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
         }
     }
 

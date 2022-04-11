@@ -25,6 +25,7 @@ public class AuthenticationRestAdapter extends AbstractRestAdapter {
     @Override
     public <T, D> RestResponse<T> execute(RestRequest<D> restRequest, Class<T> responseType) {
         String token = tokenHolder.getToken();
+        if (token == null) token = tokenHolder.updateToken(null);
         restRequest.getHeaders().put(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         RestResponse<T> restResponse = simpleRestAdapter.execute(restRequest, responseType);
         if (restResponse.getStatusCode() != 401) return restResponse;

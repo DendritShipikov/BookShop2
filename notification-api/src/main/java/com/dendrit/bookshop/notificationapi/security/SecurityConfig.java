@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .anyRequest().hasAuthority("NOTIFICATION_AUTHORITY");
+                .antMatchers("/notification").hasAuthority("NOTIFICATION_AUTHORITY");
     }
 
 }
