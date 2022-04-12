@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.client;
 
-import com.dendrit.bookshop.bookapi.client.absrtact.AbstractRestAdapter;
+import com.dendrit.bookshop.bookapi.client.absrtact.TokenHolder;
 import com.dendrit.bookshop.bookapi.client.model.RestRequest;
 import com.dendrit.bookshop.bookapi.client.model.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Component
-public class TokenHolder {
+public class TokenHolderImpl implements TokenHolder {
 
     private String token;
 
@@ -30,9 +30,11 @@ public class TokenHolder {
     }
 
     public String getToken() {
+        if (token == null) return updateToken(null);
         return token;
     }
 
+    @Override
     public synchronized String updateToken(String token) {
         if (!Objects.equals(this.token, token)) return this.token;
         Map<String, String> headers = new HashMap<>();
