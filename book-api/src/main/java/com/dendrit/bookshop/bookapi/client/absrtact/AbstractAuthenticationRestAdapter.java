@@ -10,6 +10,10 @@ public abstract class AbstractAuthenticationRestAdapter extends AbstractRestAdap
 
     private TokenHolder tokenHolder;
 
+    public AbstractAuthenticationRestAdapter(RestProperties restProperties) {
+        super(restProperties);
+    }
+
     @Autowired
     public void setTokenHolder(TokenHolder tokenHolder) {
         this.tokenHolder = tokenHolder;

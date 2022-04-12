@@ -17,6 +17,12 @@ public abstract class AbstractRestAdapter {
 
     private RestTemplate restTemplate;
 
+    private final RestProperties restProperties;
+
+    public AbstractRestAdapter(RestProperties restProperties) {
+        this.restProperties = restProperties;
+    }
+
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -24,6 +30,9 @@ public abstract class AbstractRestAdapter {
 
     public <T, D> RestResponse<T> execute(RestRequest<D> restRequest, Class<T> responseType) {
         try {
+            if (restProperties != null) {
+                restRequest.setUrl(restProperties.getBaseAddress() + restRequest.getUrl());
+            }
             URI url = URI.create(restRequest.getUrl());
             HttpHeaders headers = new HttpHeaders();
             for (Map.Entry<String, String> entry : restRequest.getHeaders().entrySet()) {
