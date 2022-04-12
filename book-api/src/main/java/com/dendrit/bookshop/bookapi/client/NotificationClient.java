@@ -1,8 +1,8 @@
 package com.dendrit.bookshop.bookapi.client;
 
-import com.dendrit.bookshop.bookapi.client.absrtact.AbstractAuthenticationRestAdapter;
-import com.dendrit.bookshop.bookapi.client.model.RestRequest;
 import com.dendrit.bookshop.bookapi.data.Message;
+import com.dendrit.bookshop.common.absrtact.AbstractAuthenticationRestAdapter;
+import com.dendrit.bookshop.common.model.RestRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;

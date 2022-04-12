@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.bookapi.client.absrtact;
+package com.dendrit.bookshop.common.absrtact;
 
 public interface TokenHolder {
 

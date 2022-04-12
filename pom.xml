@@ -19,6 +19,7 @@
 		<module>book-api</module>
         <module>notification-api</module>
         <module>internal-auth-api</module>
+        <module>common</module>
     </modules>
 
 	<properties>

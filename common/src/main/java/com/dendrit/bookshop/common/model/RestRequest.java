@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.bookapi.client.model;
+package com.dendrit.bookshop.common.model;
 
 import java.util.Map;
 

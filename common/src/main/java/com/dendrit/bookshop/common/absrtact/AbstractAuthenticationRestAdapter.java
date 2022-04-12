@@ -1,7 +1,7 @@
-package com.dendrit.bookshop.bookapi.client.absrtact;
+package com.dendrit.bookshop.common.absrtact;
 
-import com.dendrit.bookshop.bookapi.client.model.RestRequest;
-import com.dendrit.bookshop.bookapi.client.model.RestResponse;
+import com.dendrit.bookshop.common.model.RestRequest;
+import com.dendrit.bookshop.common.model.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 

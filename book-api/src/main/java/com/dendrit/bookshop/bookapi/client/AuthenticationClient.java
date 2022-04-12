@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.client;
 
-import com.dendrit.bookshop.bookapi.client.absrtact.AbstractRestAdapter;
+import com.dendrit.bookshop.common.absrtact.AbstractRestAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
