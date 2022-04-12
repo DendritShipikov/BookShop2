@@ -1,14 +1,14 @@
-package com.dendrit.bookshop.bookapi.client;
+package com.dendrit.bookshop.bookapi.client.model;
 
 import java.util.Map;
 
 public class RestResponse<T> {
 
-    private final Map<String, String> headers;
+    private Map<String, String> headers;
 
-    private final T body;
+    private T body;
 
-    private final int statusCode;
+    private int statusCode;
 
     public RestResponse(int statusCode, Map<String, String> headers, T body) {
         this.headers = headers;
@@ -20,11 +20,23 @@ public class RestResponse<T> {
         return headers;
     }
 
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
+    }
+
     public T getBody() {
         return body;
     }
 
+    public void setBody(T body) {
+        this.body = body;
+    }
+
     public int getStatusCode() {
         return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 }

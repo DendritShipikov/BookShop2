@@ -1,21 +1,14 @@
-package com.dendrit.bookshop.bookapi.client;
+package com.dendrit.bookshop.bookapi.client.absrtact;
 
+import com.dendrit.bookshop.bookapi.client.model.RestRequest;
+import com.dendrit.bookshop.bookapi.client.model.RestResponse;
+import com.dendrit.bookshop.bookapi.client.TokenHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
 
-@Component
-public class AuthenticationRestAdapter extends AbstractRestAdapter {
-
-    private SimpleRestAdapter simpleRestAdapter;
+public abstract class AbstractAuthenticationRestAdapter extends AbstractRestAdapter {
 
     private TokenHolder tokenHolder;
-
-    @Autowired
-    public void setSimpleRestAdapter(SimpleRestAdapter simpleRestAdapter) {
-        this.simpleRestAdapter = simpleRestAdapter;
-    }
 
     @Autowired
     public void setTokenHolder(TokenHolder tokenHolder) {
@@ -27,11 +20,11 @@ public class AuthenticationRestAdapter extends AbstractRestAdapter {
         String token = tokenHolder.getToken();
         if (token == null) token = tokenHolder.updateToken(null);
         restRequest.getHeaders().put(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        RestResponse<T> restResponse = simpleRestAdapter.execute(restRequest, responseType);
+        RestResponse<T> restResponse = super.execute(restRequest, responseType);
         if (restResponse.getStatusCode() != 401) return restResponse;
         token = tokenHolder.updateToken(token);
         restRequest.getHeaders().put(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-        return simpleRestAdapter.execute(restRequest, responseType);
+        return super.execute(restRequest, responseType);
     }
 
 }

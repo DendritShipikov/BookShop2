@@ -1,16 +1,19 @@
-package com.dendrit.bookshop.bookapi.client;
+package com.dendrit.bookshop.bookapi.client.absrtact;
 
+import com.dendrit.bookshop.bookapi.client.model.RestRequest;
+import com.dendrit.bookshop.bookapi.client.model.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.Map;
 
-@Component
-public class SimpleRestAdapter extends AbstractRestAdapter {
+public abstract class AbstractRestAdapter {
 
     private RestTemplate restTemplate;
 
@@ -19,7 +22,6 @@ public class SimpleRestAdapter extends AbstractRestAdapter {
         this.restTemplate = restTemplate;
     }
 
-    @Override
     public <T, D> RestResponse<T> execute(RestRequest<D> restRequest, Class<T> responseType) {
         try {
             URI url = URI.create(restRequest.getUrl());

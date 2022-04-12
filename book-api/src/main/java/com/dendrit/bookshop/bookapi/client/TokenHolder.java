@@ -1,5 +1,8 @@
 package com.dendrit.bookshop.bookapi.client;
 
+import com.dendrit.bookshop.bookapi.client.absrtact.AbstractRestAdapter;
+import com.dendrit.bookshop.bookapi.client.model.RestRequest;
+import com.dendrit.bookshop.bookapi.client.model.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,7 +16,7 @@ public class TokenHolder {
 
     private String token;
 
-    private SimpleRestAdapter simpleRestAdapter;
+    private AuthenticationClient authenticationClient;
 
     @Value("${internal.auth.name}")
     private String name;
@@ -21,16 +24,9 @@ public class TokenHolder {
     @Value("${internal.auth.password}")
     private String password;
 
-    @Value("${internalauthapi.address}")
-    private String baseInternalAuthApiAddress;
-
     @Autowired
-    public void setSimpleRestAdapter(SimpleRestAdapter simpleRestAdapter) {
-        this.simpleRestAdapter = simpleRestAdapter;
-    }
-
-    public void setToken(String token){
-        this.token = token;
+    public void setAuthenticationClient(AuthenticationClient authenticationClient) {
+        this.authenticationClient = authenticationClient;
     }
 
     public String getToken() {
@@ -41,8 +37,8 @@ public class TokenHolder {
         if (!Objects.equals(this.token, token)) return this.token;
         Map<String, String> headers = new HashMap<>();
         TokenRequest tokenRequest = new TokenRequest(name, password);
-        RestRequest<TokenRequest> restRequest = new RestRequest<>("POST", baseInternalAuthApiAddress + "/token", headers, tokenRequest);
-        RestResponse<String> restResponse = simpleRestAdapter.execute(restRequest, String.class);
+        RestRequest<TokenRequest> restRequest = new RestRequest<>("POST", "/token", headers, tokenRequest);
+        RestResponse<String> restResponse = authenticationClient.execute(restRequest, String.class);
         if (restResponse.getStatusCode() >= 400) throw new RuntimeException("Error when updating token, status code = "
                 + restResponse.getStatusCode());
         return this.token = restResponse.getBody();
