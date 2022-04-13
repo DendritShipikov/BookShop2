@@ -19,7 +19,7 @@ public class NotificationClient extends AbstractAuthenticationRestAdapter {
 
     public void send(Message message) {
         RestRequest<Message> restRequest =
-                new RestRequest<>(HttpMethod.POST.name(),  "/bookshop/api/notification", new HashMap<>(), message);
+                new RestRequest<>(HttpMethod.POST.name(),  "/notification", new HashMap<>(), message);
         super.execute(restRequest, Object.class);
     }
 

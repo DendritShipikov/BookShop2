@@ -5,9 +5,9 @@ server:
 userapi:
   address: http://localhost:8081
 internalauthapi:
-  address: http://localhost:8082/bookshop/api/internal/auth
+  base-address: http://localhost:8082/bookshop/api/internal/auth
 notificationapi:
-  address: http://localhost:8083
+  base-address: http://localhost:8083/bookshop/api
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bookshop

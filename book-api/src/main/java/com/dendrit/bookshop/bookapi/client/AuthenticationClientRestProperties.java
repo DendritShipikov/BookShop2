@@ -1,17 +1,21 @@
 package com.dendrit.bookshop.bookapi.client;
 
 import com.dendrit.bookshop.common.absrtact.RestProperties;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConfigurationProperties("internalauthapi")
 public class AuthenticationClientRestProperties implements RestProperties {
 
-    @Value("${internalauthapi.address}")
-    private String baseInternalAuthApiAddress;
+    private String baseAddress;
 
     @Override
     public String getBaseAddress() {
-        return baseInternalAuthApiAddress;
+        return baseAddress;
+    }
+
+    public void setBaseAddress(String baseAddress) {
+        this.baseAddress = baseAddress;
     }
 }
