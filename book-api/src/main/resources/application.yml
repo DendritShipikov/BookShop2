@@ -17,6 +17,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 jwt:
   key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
 internal:
