@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.client;
 
-import com.dendrit.bookshop.notificationclient.client.AuthProperties;
+import com.dendrit.bookshop.authenticationclient.client.AuthProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

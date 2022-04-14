@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.notificationclient.model;
+package com.dendrit.bookshop.authenticationclient.model;
 
 public class TokenRequest {
     private final String name;

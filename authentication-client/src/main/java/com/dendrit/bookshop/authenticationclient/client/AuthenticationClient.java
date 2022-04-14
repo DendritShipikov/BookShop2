@@ -1,9 +1,9 @@
-package com.dendrit.bookshop.notificationclient.client;
+package com.dendrit.bookshop.authenticationclient.client;
 
+import com.dendrit.bookshop.authenticationclient.model.TokenRequest;
 import com.dendrit.bookshop.common.absrtact.AbstractRestAdapter;
 import com.dendrit.bookshop.common.model.RestRequest;
 import com.dendrit.bookshop.common.model.RestResponse;
-import com.dendrit.bookshop.notificationclient.model.TokenRequest;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 

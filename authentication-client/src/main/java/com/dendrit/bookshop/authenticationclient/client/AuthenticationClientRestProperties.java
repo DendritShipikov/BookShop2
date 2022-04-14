@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.notificationclient.client;
+package com.dendrit.bookshop.authenticationclient.client;
 
 import com.dendrit.bookshop.common.absrtact.RestProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;

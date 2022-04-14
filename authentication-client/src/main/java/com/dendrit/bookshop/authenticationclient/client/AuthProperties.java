@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.notificationclient.client;
+package com.dendrit.bookshop.authenticationclient.client;
 
 public interface AuthProperties {
 

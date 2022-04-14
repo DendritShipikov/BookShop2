@@ -22,6 +22,7 @@
         <module>common</module>
         <module>audit-app</module>
         <module>notification-client</module>
+        <module>authentication-client</module>
     </modules>
 
 	<properties>

@@ -1,7 +1,7 @@
-package com.dendrit.bookshop.notificationclient.client;
+package com.dendrit.bookshop.authenticationclient.client;
 
+import com.dendrit.bookshop.authenticationclient.model.TokenRequest;
 import com.dendrit.bookshop.common.absrtact.TokenHolder;
-import com.dendrit.bookshop.notificationclient.model.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

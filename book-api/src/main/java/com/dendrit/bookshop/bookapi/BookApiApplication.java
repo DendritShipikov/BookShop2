@@ -1,7 +1,11 @@
 package com.dendrit.bookshop.bookapi;
 
+import com.dendrit.bookshop.authenticationclient.client.AuthenticationClient;
+import com.dendrit.bookshop.authenticationclient.client.AuthenticationClientRestProperties;
+import com.dendrit.bookshop.authenticationclient.client.TokenHolderImpl;
 import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
-import com.dendrit.bookshop.notificationclient.client.*;
+import com.dendrit.bookshop.notificationclient.client.NotificationClient;
+import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
