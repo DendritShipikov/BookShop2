@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.controllers;
 
-import com.dendrit.bookshop.bookapi.aspects.CalculateTime;
+import com.dendrit.bookshop.common.audit.aspects.CalculateTime;
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.BookDataPage;
 import com.dendrit.bookshop.bookapi.services.BookService;
@@ -36,7 +36,7 @@ public class BookController {
             @ApiResponse(code = 200, message = "Return page of books")
     })
     @GetMapping
-    @CalculateTime
+    @CalculateTime(name = "GET /books")
     public BookDataPage books(
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
             @Parameter(description = "Size of page") @RequestParam Integer size) {
@@ -50,7 +50,7 @@ public class BookController {
             @ApiResponse(code = 404, message = "Book not found")
     })
     @GetMapping("/{id}")
-    @CalculateTime
+    @CalculateTime(name = "GET /books/{id}")
     public BookData getBook(@Parameter(description = "Id of book to be selected") @PathVariable Long id) {
         LOGGER.info("GET /books/" + id);
         return bookService.getById(id);
@@ -61,7 +61,7 @@ public class BookController {
             @ApiResponse(code = 200, message = "Return page of books"),
     })
     @GetMapping("/search/title")
-    @CalculateTime
+    @CalculateTime(name = "GET /books/search/title")
     public BookDataPage searchBooksByTitle(
             @Parameter(description = "Search query") @RequestParam String query,
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
@@ -75,7 +75,7 @@ public class BookController {
             @ApiResponse(code = 200, message = "Return page of books"),
     })
     @GetMapping("/user/{userId}")
-    @CalculateTime
+    @CalculateTime(name = "GET books/user/{userId}")
     public BookDataPage getBooksByUserId(
             @Parameter(description = "User id") @PathVariable Long userId,
             @Parameter(description = "Index of page to be selected") @RequestParam Integer page,
@@ -90,7 +90,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "User hasn't authority to save book")
     })
     @PostMapping
-    @CalculateTime
+    @CalculateTime(name = "POST /books")
     public ResponseEntity<BookData> saveBook(@Parameter(description = "Book to be saved") @RequestBody @Valid BookData bookData) {
         LOGGER.info("POST /books, book = {title = '" + bookData.getTitle() + "', author = '" + bookData.getAuthor() + "'}");
         bookService.save(bookData);
@@ -105,7 +105,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "User hasn't authority to update book")
     })
     @PutMapping("/{id}")
-    @CalculateTime
+    @CalculateTime(name = "PUT /books/{id}")
     public ResponseEntity<BookData> editBook(
             @Parameter(description = "New book data") @RequestBody @Valid BookData bookData,
             @Parameter(description = "Id of book to be updated") @PathVariable Long id) {
@@ -122,7 +122,7 @@ public class BookController {
             @ApiResponse(code = 403, message = "User hasn't authority to delete book")
     })
     @DeleteMapping("/{id}")
-    @CalculateTime
+    @CalculateTime(name = "DELETE /books/{id}")
     public ResponseEntity<Void> deleteBook(@Parameter(description = "Id of book to be deleted") @PathVariable Long id) {
         LOGGER.info("DELETE /books/" + id);
         bookService.deleteById(id);

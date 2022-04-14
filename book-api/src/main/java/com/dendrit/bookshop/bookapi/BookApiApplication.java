@@ -1,11 +1,11 @@
 package com.dendrit.bookshop.bookapi;
 
-import org.apache.kafka.clients.admin.NewTopic;
+import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -16,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableWebMvc
 @EnableSwagger2
+@Import(CalculateTimeAspect.class)
 public class BookApiApplication {
 
     public static void main(String[] args) {
@@ -34,10 +35,4 @@ public class BookApiApplication {
                 .apis(RequestHandlerSelectors.basePackage("com.dendrit.bookshop.bookapi.controllers"))
                 .build();
     }
-
-    @Bean
-    public NewTopic topic() {
-        return TopicBuilder.name("audit").partitions(2).replicas(1).build();
-    }
-
 }
