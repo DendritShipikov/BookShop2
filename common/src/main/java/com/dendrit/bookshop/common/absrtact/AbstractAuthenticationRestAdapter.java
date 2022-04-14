@@ -5,13 +5,9 @@ import com.dendrit.bookshop.common.model.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 
-public abstract class AbstractAuthenticationRestAdapter extends AbstractRestAdapter {
+public abstract class AbstractAuthenticationRestAdapter<P extends RestProperties> extends AbstractRestAdapter<P> {
 
     private TokenHolder tokenHolder;
-
-    public AbstractAuthenticationRestAdapter(RestProperties restProperties) {
-        super(restProperties);
-    }
 
     @Autowired
     public void setTokenHolder(TokenHolder tokenHolder) {

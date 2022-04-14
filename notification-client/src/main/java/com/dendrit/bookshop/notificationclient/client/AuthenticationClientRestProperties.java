@@ -1,13 +1,12 @@
-package com.dendrit.bookshop.bookapi.client;
+package com.dendrit.bookshop.notificationclient.client;
 
 import com.dendrit.bookshop.common.absrtact.RestProperties;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties("notificationapi")
-public class NotificationClientRestProperties implements RestProperties {
+@ConfigurationProperties("internal-auth-api")
+public class AuthenticationClientRestProperties implements RestProperties {
 
     private String baseAddress;
 

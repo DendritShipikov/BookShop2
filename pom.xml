@@ -21,6 +21,7 @@
         <module>internal-auth-api</module>
         <module>common</module>
         <module>audit-app</module>
+        <module>notification-client</module>
     </modules>
 
 	<properties>

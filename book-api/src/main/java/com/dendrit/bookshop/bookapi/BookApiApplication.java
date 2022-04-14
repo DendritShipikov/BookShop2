@@ -1,6 +1,7 @@
 package com.dendrit.bookshop.bookapi;
 
 import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
+import com.dendrit.bookshop.notificationclient.client.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,7 +17,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableWebMvc
 @EnableSwagger2
-@Import(CalculateTimeAspect.class)
+@Import({
+        CalculateTimeAspect.class,
+        NotificationClient.class,
+        NotificationClientRestProperties.class,
+        TokenHolderImpl.class,
+        AuthenticationClientRestProperties.class,
+        AuthenticationClient.class
+})
 public class BookApiApplication {
 
     public static void main(String[] args) {

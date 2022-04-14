@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.bookapi.data;
+package com.dendrit.bookshop.notificationclient.model;
 
 public class Message {
 

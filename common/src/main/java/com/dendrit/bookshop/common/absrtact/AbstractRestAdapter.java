@@ -13,13 +13,14 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.util.Map;
 
-public abstract class AbstractRestAdapter {
+public abstract class AbstractRestAdapter<P extends RestProperties> {
 
     private RestTemplate restTemplate;
 
-    private final RestProperties restProperties;
+    private P restProperties;
 
-    public AbstractRestAdapter(RestProperties restProperties) {
+    @Autowired
+    public void setRestProperties(P restProperties) {
         this.restProperties = restProperties;
     }
 

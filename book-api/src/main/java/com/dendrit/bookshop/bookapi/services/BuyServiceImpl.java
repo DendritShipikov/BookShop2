@@ -1,7 +1,6 @@
 package com.dendrit.bookshop.bookapi.services;
 
-import com.dendrit.bookshop.bookapi.client.NotificationClient;
-import com.dendrit.bookshop.bookapi.data.Message;
+import com.dendrit.bookshop.notificationclient.model.Message;
 import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
@@ -9,6 +8,7 @@ import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
 import com.dendrit.bookshop.bookapi.util.UserUtil;
+import com.dendrit.bookshop.notificationclient.client.NotificationClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

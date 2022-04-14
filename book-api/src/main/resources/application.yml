@@ -4,9 +4,9 @@ server:
   port: 8080
 userapi:
   address: http://localhost:8081
-internalauthapi:
+internal-auth-api:
   base-address: http://localhost:8082/bookshop/api/internal/auth
-notificationapi:
+notification-api:
   base-address: http://localhost:8083/bookshop/api
 spring:
   datasource:
