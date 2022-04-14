@@ -24,6 +24,10 @@ public abstract class AbstractRestAdapter<P extends RestProperties> {
         this.restProperties = restProperties;
     }
 
+    public P getRestProperties() {
+        return restProperties;
+    }
+
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

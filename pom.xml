@@ -23,6 +23,7 @@
         <module>audit-app</module>
         <module>notification-client</module>
         <module>authentication-client</module>
+        <module>authorization-client</module>
     </modules>
 
 	<properties>
