@@ -1,5 +1,6 @@
 package com.dendrit.bookshop.authorizationclient.client;
 
+import com.dendrit.bookshop.authorizationclient.security.AuthorizationData;
 import com.dendrit.bookshop.common.absrtact.AbstractRestAdapter;
 import com.dendrit.bookshop.common.model.RestRequest;
 import com.dendrit.bookshop.common.model.RestResponse;
@@ -11,10 +12,10 @@ import java.util.Map;
 @Component
 public class AuthorizationClient extends AbstractRestAdapter<AuthorizationProperties> {
 
-    public <T> T getAuthorities(Long id, Class<T> responseType) {
+    public AuthorizationData getAuthorities(Long id) {
         Map<String, String> headers = new HashMap<>();
         RestRequest<Void> restRequest = new RestRequest<>("GET", "/" + id, headers, null);
-        RestResponse<T> restResponse = super.execute(restRequest, responseType);
+        RestResponse<? extends AuthorizationData> restResponse = super.execute(restRequest, getRestProperties().getAuthorizationDataType());
         return restResponse.getBody();
     }
 

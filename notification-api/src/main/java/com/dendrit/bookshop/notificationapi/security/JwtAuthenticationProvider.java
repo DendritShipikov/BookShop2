@@ -1,6 +1,7 @@
 package com.dendrit.bookshop.notificationapi.security;
 
 import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
+import com.dendrit.bookshop.authorizationclient.security.AuthorizationData;
 import com.dendrit.bookshop.notificationapi.data.ProfileData;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -60,7 +61,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 InvalidKeySpecException exception) {
             throw new BadCredentialsException("Bad JWT", exception);
         }
-        ProfileData profileData = authorizationClient.getAuthorities(id, ProfileData.class);
+        AuthorizationData profileData = authorizationClient.getAuthorities(id);
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(profileData, null, profileData.getAuthorities());
         jwtAuthenticationToken.setAuthenticated(true);
         return jwtAuthenticationToken;

@@ -1,10 +1,13 @@
 package com.dendrit.bookshop.bookapi.data;
 
+import com.dendrit.bookshop.authorizationclient.security.AuthorizationData;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.Set;
 
-public class UserData {
+public class UserData implements AuthorizationData {
 
     private Long id;
 
@@ -34,5 +37,10 @@ public class UserData {
 
     public void setRoles(Set<SimpleGrantedAuthority> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
     }
 }

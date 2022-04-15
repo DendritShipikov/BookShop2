@@ -1,10 +1,13 @@
 package com.dendrit.bookshop.notificationapi.data;
 
+import com.dendrit.bookshop.authorizationclient.security.AuthorizationData;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.Set;
 
-public class ProfileData {
+public class ProfileData implements AuthorizationData {
 
     private Long id;
 
@@ -28,11 +31,12 @@ public class ProfileData {
         this.name = name;
     }
 
-    public Set<SimpleGrantedAuthority> getAuthorities() {
-        return authorities;
-    }
-
     public void setAuthorities(Set<SimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
     }
 }
