@@ -2,8 +2,8 @@ server:
   servlet:
     context-path: /bookshop/api
   port: 8080
-userapi:
-  address: http://localhost:8081
+user-api:
+  base-address: http://localhost:8081/bookshop/api/users
 internal-auth-api:
   base-address: http://localhost:8082/bookshop/api/internal/auth
 notification-api:

@@ -1,5 +1,6 @@
 package com.dendrit.bookshop.notificationapi.security;
 
+import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
 import com.dendrit.bookshop.notificationapi.data.ProfileData;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -25,17 +26,14 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationProvider.class);
 
-    @Value("${internalauthapi.address}")
-    private String internalAuthApiBaseAddress;
-
     @Value("${jwt.key}")
     private String key;
 
-    private RestTemplate restTemplate;
+    private AuthorizationClient authorizationClient;
 
     @Autowired
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public void setAuthorizationClient(AuthorizationClient authorizationClient) {
+        this.authorizationClient = authorizationClient;
     }
 
     @Override
@@ -62,7 +60,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 InvalidKeySpecException exception) {
             throw new BadCredentialsException("Bad JWT", exception);
         }
-        ProfileData profileData = restTemplate.getForObject(internalAuthApiBaseAddress + "/profile/{id}", ProfileData.class, id);
+        ProfileData profileData = authorizationClient.getAuthorities(id, ProfileData.class);
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(profileData, null, profileData.getAuthorities());
         jwtAuthenticationToken.setAuthenticated(true);
         return jwtAuthenticationToken;

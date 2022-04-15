@@ -13,7 +13,7 @@ public class AuthorizationClient extends AbstractRestAdapter<AuthorizationProper
 
     public <T> T getAuthorities(Long id, Class<T> responseType) {
         Map<String, String> headers = new HashMap<>();
-        RestRequest<Void> restRequest = new RestRequest<>("GET", getRestProperties().getBaseAddress() + "/" + id, headers, null);
+        RestRequest<Void> restRequest = new RestRequest<>("GET", "/" + id, headers, null);
         RestResponse<T> restResponse = super.execute(restRequest, responseType);
         return restResponse.getBody();
     }

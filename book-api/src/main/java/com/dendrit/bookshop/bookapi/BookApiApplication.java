@@ -3,6 +3,7 @@ package com.dendrit.bookshop.bookapi;
 import com.dendrit.bookshop.authenticationclient.client.AuthenticationClient;
 import com.dendrit.bookshop.authenticationclient.client.AuthenticationClientRestProperties;
 import com.dendrit.bookshop.authenticationclient.client.TokenHolderImpl;
+import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
 import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
 import com.dendrit.bookshop.notificationclient.client.NotificationClient;
 import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
@@ -27,7 +28,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         NotificationClientRestProperties.class,
         TokenHolderImpl.class,
         AuthenticationClientRestProperties.class,
-        AuthenticationClient.class
+        AuthenticationClient.class,
+        AuthorizationClient.class
 })
 public class BookApiApplication {
 
