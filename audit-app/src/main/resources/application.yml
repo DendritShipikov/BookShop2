@@ -6,5 +6,15 @@ spring:
       properties:
         spring.json:
           trusted.packages: "*"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookshop
+    username: dendrit
+    password: qazwsx
 server:
   port: 8084
+  servlet:
+    context-path: /bookshop/api/audit

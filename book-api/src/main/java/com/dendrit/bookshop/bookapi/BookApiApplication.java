@@ -5,6 +5,7 @@ import com.dendrit.bookshop.authenticationclient.client.AuthenticationClientRest
 import com.dendrit.bookshop.authenticationclient.client.TokenHolderImpl;
 import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
 import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvider;
+import com.dendrit.bookshop.common.audit.EnableAudit;
 import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
 import com.dendrit.bookshop.notificationclient.client.NotificationClient;
 import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
@@ -23,8 +24,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableWebMvc
 @EnableSwagger2
+@EnableAudit
 @Import({
-        CalculateTimeAspect.class,
         NotificationClient.class,
         NotificationClientRestProperties.class,
         TokenHolderImpl.class,
