@@ -1,5 +1,6 @@
 package com.dendrit.bookshop.userapi;
 
+import com.dendrit.bookshop.common.audit.EnableAudit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableWebMvc
 @EnableSwagger2
+@EnableAudit
 public class UserApiApplication {
 
     public static void main(String[] args) {

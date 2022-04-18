@@ -1,5 +1,6 @@
 package com.dendrit.bookshop.userapi.controllers;
 
+import com.dendrit.bookshop.common.audit.aspects.CalculateTime;
 import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
@@ -38,6 +39,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User with such username does not exist")
     })
     @GetMapping("/{id}")
+    @CalculateTime(name = "GET /users/{id}")
     public UserData getById(@Parameter(description = "Id of user to be selected") @PathVariable Long id) {
         LOGGER.info("GET /users/" + id);
         return userService.getUserById(id);
@@ -49,6 +51,7 @@ public class UserController {
             @ApiResponse(code = 422, message = "User with such username is already exists")
     })
     @PostMapping("/register")
+    @CalculateTime(name = "POST /users/register")
     public ResponseEntity<UserData> register(
             @Parameter(description = "Registration form") @RequestBody @Valid UserRegistrationForm registrationForm) {
         LOGGER.info("POST /users/register, username = " + registrationForm.getUsername());
@@ -63,6 +66,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User with such username does not exist")
     })
     @PostMapping("/token")
+    @CalculateTime(name = "POST /token")
     public ResponseEntity<String> generateToken(
             @Parameter(description = "Username-password pair")@RequestBody UserLoginForm loginForm) throws IncorrectPasswordException {
         LOGGER.info("POST /users/token, username = " + loginForm.getUsername());

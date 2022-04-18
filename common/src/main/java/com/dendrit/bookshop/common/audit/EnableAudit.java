@@ -1,6 +1,5 @@
 package com.dendrit.bookshop.common.audit;
 
-import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -10,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import(CalculateTimeAspect.class)
+@Import(AuditConfiguration.class)
 public @interface EnableAudit {
 }
