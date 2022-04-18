@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.controllers;
 
-import com.dendrit.bookshop.common.audit.aspects.CalculateTime;
+import com.dendrit.bookshop.common.audit.aspects.Audit;
 import com.dendrit.bookshop.bookapi.services.BuyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class BuyController {
     }
 
     @PostMapping("/books/buy")
-    @CalculateTime(name = "POST /book/buy")
+    @Audit
     public ResponseEntity<Void> buyAllFromCart() {
         buyService.buyAllFromCart();
         return ResponseEntity.accepted().build();

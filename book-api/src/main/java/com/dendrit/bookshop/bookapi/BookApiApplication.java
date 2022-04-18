@@ -6,7 +6,6 @@ import com.dendrit.bookshop.authenticationclient.client.TokenHolderImpl;
 import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
 import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvider;
 import com.dendrit.bookshop.common.audit.EnableAudit;
-import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
 import com.dendrit.bookshop.notificationclient.client.NotificationClient;
 import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
 import org.springframework.boot.SpringApplication;

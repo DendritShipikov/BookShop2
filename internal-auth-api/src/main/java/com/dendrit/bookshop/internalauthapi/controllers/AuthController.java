@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.internalauthapi.controllers;
 
-import com.dendrit.bookshop.common.audit.aspects.CalculateTime;
+import com.dendrit.bookshop.common.audit.aspects.Audit;
 import com.dendrit.bookshop.internalauthapi.data.ProfileData;
 import com.dendrit.bookshop.internalauthapi.data.TokenRequest;
 import com.dendrit.bookshop.internalauthapi.exceptions.IncorrectPasswordException;
@@ -20,19 +20,19 @@ public class AuthController {
     }
 
     @PostMapping("/token")
-    @CalculateTime(name = "POST /token")
+    @Audit
     public String generateToken(@RequestBody TokenRequest tokenRequest) throws IncorrectPasswordException {
         return authService.generateToken(tokenRequest.getName(), tokenRequest.getPassword());
     }
 
     @GetMapping("/profile/{id}")
-    @CalculateTime(name = "GET /profile/{id}")
+    @Audit
     public ProfileData getProfileById(@PathVariable Long id) {
         return authService.getProfileById(id);
     }
 
     @PostMapping("/profile")
-    @CalculateTime(name = "POST /profile")
+    @Audit
     public void registration(@RequestBody TokenRequest tokenRequest) {
         authService.registration(tokenRequest.getName(), tokenRequest.getPassword());
     }

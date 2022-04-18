@@ -1,11 +1,10 @@
 package com.dendrit.bookshop.userapi.controllers;
 
-import com.dendrit.bookshop.common.audit.aspects.CalculateTime;
+import com.dendrit.bookshop.common.audit.aspects.Audit;
 import com.dendrit.bookshop.userapi.data.UserData;
 import com.dendrit.bookshop.userapi.data.UserLoginForm;
 import com.dendrit.bookshop.userapi.data.UserRegistrationForm;
 import com.dendrit.bookshop.userapi.exceptions.IncorrectPasswordException;
-import com.dendrit.bookshop.userapi.services.JwtService;
 import com.dendrit.bookshop.userapi.services.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -39,7 +38,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User with such username does not exist")
     })
     @GetMapping("/{id}")
-    @CalculateTime(name = "GET /users/{id}")
+    @Audit
     public UserData getById(@Parameter(description = "Id of user to be selected") @PathVariable Long id) {
         LOGGER.info("GET /users/" + id);
         return userService.getUserById(id);
@@ -51,7 +50,7 @@ public class UserController {
             @ApiResponse(code = 422, message = "User with such username is already exists")
     })
     @PostMapping("/register")
-    @CalculateTime(name = "POST /users/register")
+    @Audit
     public ResponseEntity<UserData> register(
             @Parameter(description = "Registration form") @RequestBody @Valid UserRegistrationForm registrationForm) {
         LOGGER.info("POST /users/register, username = " + registrationForm.getUsername());
@@ -66,7 +65,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "User with such username does not exist")
     })
     @PostMapping("/token")
-    @CalculateTime(name = "POST /token")
+    @Audit
     public ResponseEntity<String> generateToken(
             @Parameter(description = "Username-password pair")@RequestBody UserLoginForm loginForm) throws IncorrectPasswordException {
         LOGGER.info("POST /users/token, username = " + loginForm.getUsername());

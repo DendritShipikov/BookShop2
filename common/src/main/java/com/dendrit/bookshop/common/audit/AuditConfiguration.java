@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.common.audit;
 
-import com.dendrit.bookshop.common.audit.aspects.CalculateTimeAspect;
+import com.dendrit.bookshop.common.audit.aspects.AuditAspect;
 import com.dendrit.bookshop.common.audit.data.ExecutionTime;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@Import(CalculateTimeAspect.class)
+@Import(AuditAspect.class)
 public class AuditConfiguration {
 
     @Bean
