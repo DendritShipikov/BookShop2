@@ -4,6 +4,7 @@ import com.dendrit.bookshop.common.audit.aspects.AuditAspect;
 import com.dendrit.bookshop.common.audit.data.ExecutionTime;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -13,18 +14,22 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 @Import(AuditAspect.class)
 public class AuditConfiguration {
 
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private List<String> kafkaServers;
+
     @Bean
     public ProducerFactory<String, ExecutionTime> producerFactory() {
         Map<String, Object> properties = new HashMap<>();
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServers);
         return new DefaultKafkaProducerFactory<>(properties);
     }
 
