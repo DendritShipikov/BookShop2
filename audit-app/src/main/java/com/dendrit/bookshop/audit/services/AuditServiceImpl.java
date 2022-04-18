@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class AuditServiceImpl implements AuditService {
 
@@ -30,13 +32,7 @@ public class AuditServiceImpl implements AuditService {
     @Override
     @Transactional
     public int calculateAverage() {
-        Iterable<AuditItem> auditItems = auditItemRepository.findAll();
-        int totalCount = 0;
-        int totalSum = 0;
-        for (AuditItem auditItem : auditItems) {
-            totalSum += auditItem.getDuration();
-            ++totalCount;
-        }
-        return totalSum / totalCount;
+        List<AuditItem> auditItems = auditItemRepository.findAll();
+        return (int)auditItems.stream().mapToLong(AuditItem::getDuration).average().getAsDouble();
     }
 }
