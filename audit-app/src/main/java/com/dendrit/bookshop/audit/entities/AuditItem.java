@@ -3,6 +3,7 @@ package com.dendrit.bookshop.audit.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class AuditItem {
@@ -36,5 +37,18 @@ public class AuditItem {
 
     public void setName(String desc) {
         this.name = desc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuditItem auditItem = (AuditItem) o;
+        return duration == auditItem.duration && Objects.equals(id, auditItem.id) && Objects.equals(name, auditItem.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, duration);
     }
 }
