@@ -2,6 +2,7 @@ package com.dendrit.bookshop.bookapi.tests;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.BookDataPage;
+import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.exceptions.BookNotFoundException;
 import com.dendrit.bookshop.bookapi.mappers.BookMapper;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
@@ -106,6 +108,44 @@ public class BookServiceImplTest {
         BookDataPage bookDataPage = bookService.getByUserId(userId, 0, 2);
         BookDataPage result = new BookDataPage(bookDataList, 3, 0);
         Assertions.assertEquals(result, bookDataPage);
+    }
+
+    @Test
+    public void saveTest() {
+        UserData userData = new UserData();
+        userData.setUsername("user");
+        userData.setId(1L);
+        Mockito.when(authentication.getPrincipal()).thenReturn(userData);
+        BookData bookData = new BookData(0L, "book", "author", 0L, 20);
+        BookData bookData2 = new BookData(null, "book", "author", 1L, 20);
+        Book book = new Book(null, "book", "author", 1L, 20);
+        Mockito.when(bookMapper.toEntity(bookData2)).thenReturn(book);
+        Book book2 = new Book(1L, "book", "author", 1L, 20);
+        Mockito.when(bookRepository.save(book)).thenReturn(book2);
+        bookService.save(bookData);
+        BookData result = new BookData(1L, "book", "author", 1L, 20);
+        Assertions.assertEquals(bookData, result);
+    }
+
+    @Test
+    public void editTest() {
+        UserData userData = new UserData();
+        userData.setUsername("user");
+        userData.setId(1L);
+        Mockito.when(authentication.getPrincipal()).thenReturn(userData);
+        BookData bookData = new BookData(1L, "book", "author", 1L, 20);
+        Book book = new Book(1L, "book", "author", 1L, 20);
+        Mockito.when(bookMapper.toEntity(bookData)).thenReturn(book);
+        Mockito.when(bookRepository.save(book)).thenReturn(book);
+        bookService.edit(bookData, 1L);
+        BookData result = new BookData(1L, "book", "author", 1L, 20);
+        Assertions.assertEquals(bookData, result);
+    }
+
+    @Test
+    public void deleteByIdTest() {
+        bookService.deleteById(1L);
+        Mockito.verify(bookRepository).deleteById(1L);
     }
 
 }

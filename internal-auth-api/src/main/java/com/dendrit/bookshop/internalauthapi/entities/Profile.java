@@ -1,6 +1,7 @@
 package com.dendrit.bookshop.internalauthapi.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -48,5 +49,22 @@ public class Profile {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile profile = (Profile) o;
+        return
+                Objects.equals(id, profile.id) &&
+                Objects.equals(name, profile.name) &&
+                Objects.equals(password, profile.password) &&
+                Objects.equals(authorities, profile.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, password, authorities);
     }
 }
