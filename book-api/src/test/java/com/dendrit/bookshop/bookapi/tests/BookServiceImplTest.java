@@ -122,9 +122,7 @@ public class BookServiceImplTest {
         Mockito.when(bookMapper.toEntity(bookData2)).thenReturn(book);
         Book book2 = new Book(1L, "book", "author", 1L, 20);
         Mockito.when(bookRepository.save(book)).thenReturn(book2);
-        bookService.save(bookData);
-        BookData result = new BookData(1L, "book", "author", 1L, 20);
-        Assertions.assertEquals(bookData, result);
+        Assertions.assertEquals(new BookData(1L, "book", "author", 1L, 20), bookService.save(bookData));
     }
 
     @Test
@@ -137,9 +135,7 @@ public class BookServiceImplTest {
         Book book = new Book(1L, "book", "author", 1L, 20);
         Mockito.when(bookMapper.toEntity(bookData)).thenReturn(book);
         Mockito.when(bookRepository.save(book)).thenReturn(book);
-        bookService.edit(bookData, 1L);
-        BookData result = new BookData(1L, "book", "author", 1L, 20);
-        Assertions.assertEquals(bookData, result);
+        Assertions.assertEquals(new BookData(1L, "book", "author", 1L, 20), bookService.save(bookData));
     }
 
     @Test

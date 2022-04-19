@@ -62,7 +62,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void save(BookData bookData) {
+    public BookData save(BookData bookData) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
         bookData.setId(null);
@@ -70,17 +70,18 @@ public class BookServiceImpl implements BookService {
         Book book = bookMapper.toEntity(bookData);
         book = bookRepository.save(book);
         bookData.setId(book.getId());
+        return bookData;
     }
 
     @Override
     @Transactional
-    public void edit(BookData bookData, Long id) {
+    public BookData edit(BookData bookData) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
-        bookData.setId(id);
         bookData.setUserId(userData.getId());
         Book book = bookMapper.toEntity(bookData);
         bookRepository.save(book);
+        return bookData;
     }
 
     @Override

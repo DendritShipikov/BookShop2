@@ -46,7 +46,7 @@ public class BookServiceProxyTest {
         userData.setId(1L);
         Mockito.when(authentication.getPrincipal()).thenReturn(userData);
         Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.empty());
-        Assertions.assertThrows(BookNotFoundException.class, () -> bookServiceProxy.edit(null, 1L));
+        Assertions.assertThrows(BookNotFoundException.class, () -> bookServiceProxy.edit(new BookData(1L, "book", "author", 1L, 20)));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class BookServiceProxyTest {
         Collection<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("PUBLISHER"));
         Mockito.doReturn(authorities).when(authentication).getAuthorities();
         Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        Assertions.assertThrows(UserHasNoAuthorityException.class, () -> bookServiceProxy.edit(bookData, 1L));
+        Assertions.assertThrows(UserHasNoAuthorityException.class, () -> bookServiceProxy.edit(bookData));
     }
 
     @Test
@@ -74,8 +74,9 @@ public class BookServiceProxyTest {
         Collection<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("PUBLISHER"));
         Mockito.doReturn(authorities).when(authentication).getAuthorities();
         Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        bookServiceProxy.edit(bookData, 1L);
-        Mockito.verify(bookServiceImpl).edit(bookData, 1L);
+        Mockito.when(bookServiceImpl.edit(bookData)).thenReturn(bookData);
+        Assertions.assertEquals(bookData, bookServiceProxy.edit(bookData));
+        Mockito.verify(bookServiceImpl).edit(bookData);
     }
 
     @Test
@@ -89,8 +90,9 @@ public class BookServiceProxyTest {
         Collection<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ADMIN"));
         Mockito.doReturn(authorities).when(authentication).getAuthorities();
         Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-        bookServiceProxy.edit(bookData, 1L);
-        Mockito.verify(bookServiceImpl).edit(bookData, 1L);
+        Mockito.when(bookServiceImpl.edit(bookData)).thenReturn(bookData);
+        Assertions.assertEquals(bookData, bookServiceProxy.edit(bookData));
+        Mockito.verify(bookServiceImpl).edit(bookData);
     }
 
     @Test

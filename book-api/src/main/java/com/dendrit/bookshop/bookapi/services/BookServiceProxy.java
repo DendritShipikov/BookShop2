@@ -54,19 +54,20 @@ public class BookServiceProxy implements BookService {
     }
 
     @Override
-    public void save(BookData bookData) {
-        bookService.save(bookData);
+    public BookData save(BookData bookData) {
+        return bookService.save(bookData);
     }
 
     @Override
-    public void edit(BookData bookData, Long id) {
+    public BookData edit(BookData bookData) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserData userData = (UserData) authentication.getPrincipal();
-        Book book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book with id = " + id + " does not exist"));
+        Book book = bookRepository.findById(bookData.getId())
+                .orElseThrow(() -> new BookNotFoundException("Book with id = " + bookData.getId() + " does not exist"));
         if (!authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")) && !userData.getId().equals(book.getUserId())) {
             throw new UserHasNoAuthorityException("User has no authority to edit the book");
         }
-        bookService.edit(bookData, id);
+        return bookService.edit(bookData);
     }
 
     @Override

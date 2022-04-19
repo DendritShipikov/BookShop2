@@ -13,9 +13,9 @@ public interface BookService {
 
     BookDataPage getByUserId(Long userId, int page, int size);
 
-    void save(BookData bookData);
+    BookData save(BookData bookData);
 
-    void edit(BookData bookData, Long id);
+    BookData edit(BookData bookData);
 
     void deleteById(Long id);
 

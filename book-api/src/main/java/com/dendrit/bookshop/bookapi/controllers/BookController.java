@@ -110,7 +110,8 @@ public class BookController {
             @Parameter(description = "New book data") @RequestBody @Valid BookData bookData,
             @Parameter(description = "Id of book to be updated") @PathVariable Long id) {
         LOGGER.info("PUT /books/" + id + ", book = {title = '" + bookData.getTitle() + "', author = '" + bookData.getAuthor() + "'}");
-        bookService.edit(bookData, id);
+        bookData.setId(id);
+        bookService.edit(bookData);
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .body(bookData);
