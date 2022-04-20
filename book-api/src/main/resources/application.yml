@@ -2,8 +2,13 @@ server:
   servlet:
     context-path: /bookshop/api
   port: 8080
+  ssl:
+    key-store: classpath:bookshop.p12
+    key-store-type: PKCS12
+    key-store-password: qazwsx
+    key-alias: bookshop
 user-api:
-  base-address: http://localhost:8081/bookshop/api/users
+  base-address: https://localhost:8081/bookshop/api/users
 internal-auth-api:
   base-address: http://localhost:8082/bookshop/api/internal/auth
 notification-api:
