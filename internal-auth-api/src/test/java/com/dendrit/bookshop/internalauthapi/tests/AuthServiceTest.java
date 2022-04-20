@@ -12,6 +12,8 @@ import com.dendrit.bookshop.internalauthapi.services.JwtService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -65,13 +67,13 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void getTokenByIdTest_IfNotFound() {
+    public void getProfileByIdTest_IfNotFound() {
         Mockito.when(profileRepository.findById(1L)).thenReturn(Optional.empty());
         Assertions.assertThrows(ProfileNotFoundException.class, () -> authService.getProfileById(1L));
     }
 
     @Test
-    public void getTokenByIdTest() {
+    public void getProfileByIdTest() {
         Profile profile = new Profile();
         profile.setName("name");
         profile.setId(1L);
@@ -93,17 +95,21 @@ public class AuthServiceTest {
         Assertions.assertThrows(ProfileAlreadyExistException.class, () -> authService.registration("name", "password"));
     }
 
-    @Test
-    public void registrationTest() {
-        Mockito.when(profileRepository.findByName("name")).thenReturn(Optional.empty());
-        Mockito.when(passwordEncoder.encode("password")).thenReturn("1");
-        authService.registration("name", "password");
+    @ParameterizedTest
+    @CsvSource({
+            "name1, password2, 1",
+            "name2, password2, 2"
+    })
+    public void registrationTest(String name, String rawPassword, String encodedPassword) {
+        Mockito.when(profileRepository.findByName(name)).thenReturn(Optional.empty());
+        Mockito.when(passwordEncoder.encode(rawPassword)).thenReturn(encodedPassword);
+        authService.registration(name, rawPassword);
         Profile profile = new Profile();
-        profile.setName("name");
-        profile.setPassword("1");
+        profile.setName(name);
+        profile.setPassword(encodedPassword);
         profile.setAuthorities(Set.of());
         Mockito.verify(profileRepository).save(profile);
-        Mockito.verify(passwordEncoder).encode("password");
+        Mockito.verify(passwordEncoder).encode(rawPassword);
     }
 
 }

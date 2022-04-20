@@ -3,6 +3,7 @@ package com.dendrit.bookshop.bookapi.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Book {
@@ -67,5 +68,18 @@ public class Book {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return count == book.count && Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(userId, book.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, userId, count);
     }
 }

@@ -11,6 +11,9 @@ import com.dendrit.bookshop.bookapi.services.BookServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -138,10 +141,11 @@ public class BookServiceImplTest {
         Assertions.assertEquals(new BookData(1L, "book", "author", 1L, 20), bookService.save(bookData));
     }
 
-    @Test
-    public void deleteByIdTest() {
-        bookService.deleteById(1L);
-        Mockito.verify(bookRepository).deleteById(1L);
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    public void deleteByIdTest(Long id) {
+        bookService.deleteById(id);
+        Mockito.verify(bookRepository).deleteById(id);
     }
 
 }
