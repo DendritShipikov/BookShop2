@@ -3,10 +3,12 @@ package com.dendrit.bookshop.bookapi.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
 @IdClass(CartItemId.class)
+@Table(name = "cart_items")
 public class CartItem {
 
     @Id
