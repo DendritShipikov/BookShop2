@@ -2,6 +2,11 @@ server:
   port: 8082
   servlet:
     context-path: /bookshop/api
+  ssl:
+    key-store: classpath:bookshop.p12
+    key-store-type: PKCS12
+    key-store-password: qazwsx
+    key-alias: bookshop
 spring:
   datasource:
     password: qazwsx

@@ -9,15 +9,15 @@ server:
     key-alias: bookshop
 user-api:
   base-address: https://localhost:8081/bookshop/api/users
-  trust-store: classpath:booksop.p12
+  trust-store: classpath:bookshop.p12
   trust-store-password: qazwsx
 internal-auth-api:
-  base-address: http://localhost:8082/bookshop/api/internal/auth
-  trust-store: classpath:booksop.p12
+  base-address: https://localhost:8082/bookshop/api/internal/auth
+  trust-store: classpath:bookshop.p12
   trust-store-password: qazwsx
 notification-api:
-  base-address: http://localhost:8083/bookshop/api
-  trust-store: classpath:booksop.p12
+  base-address: https://localhost:8083/bookshop/api
+  trust-store: classpath:bookshop.p12
   trust-store-password: qazwsx
 spring:
   datasource:

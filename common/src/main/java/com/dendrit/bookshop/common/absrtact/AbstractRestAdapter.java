@@ -28,9 +28,6 @@ public abstract class AbstractRestAdapter<P extends RestProperties> {
 
     private P restProperties;
 
-    @Value("classpath:bookshop.p12")
-    private Resource trustStore;
-
     @Autowired
     public void setRestProperties(P restProperties) {
         this.restProperties = restProperties;
@@ -43,7 +40,7 @@ public abstract class AbstractRestAdapter<P extends RestProperties> {
     @PostConstruct
     public void injectRestTemplate() throws Exception {
         SSLContext sslContext = new SSLContextBuilder()
-                .loadTrustMaterial(trustStore.getURL(), "qazwsx".toCharArray())
+                .loadTrustMaterial(restProperties.getTrustStore().getURL(), restProperties.getTrustStorePassword().toCharArray())
                 .build();
         SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
         HttpClient httpClient = HttpClients
