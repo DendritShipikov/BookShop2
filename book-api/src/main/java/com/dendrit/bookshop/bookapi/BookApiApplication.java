@@ -44,28 +44,9 @@ import javax.net.ssl.SSLContext;
 })
 public class BookApiApplication {
 
-    @Value("classpath:bookshop.p12")
-    private Resource trustStore;
-    @Value("qazwsx")
-    private String trustStorePassword;
-
     public static void main(String[] args) {
         SpringApplication.run(BookApiApplication.class, args);
     }
-
-//    @Bean
-//    public RestTemplate restTemplate() throws Exception {
-//        SSLContext sslContext = new SSLContextBuilder()
-//                .loadTrustMaterial(trustStore.getURL(), trustStorePassword.toCharArray())
-//                .build();
-//        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext);
-//        HttpClient httpClient = HttpClients
-//                .custom()
-//                .setSSLSocketFactory(connectionSocketFactory)
-//                .build();
-//        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
-//        return new RestTemplate(requestFactory);
-//    }
 
     @Bean
     public Docket api() {
