@@ -14,7 +14,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/bookshop
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   kafka:
     producer:

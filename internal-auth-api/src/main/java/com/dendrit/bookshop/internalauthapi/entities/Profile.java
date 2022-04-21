@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "profiles")
 public class Profile {
 
     @Id
@@ -16,6 +17,8 @@ public class Profile {
     private String password;
 
     @ElementCollection
+    @CollectionTable(name = "profile_authorities", joinColumns = @JoinColumn(name = "profile_id"))
+    @Column(name = "authority")
     @Enumerated(EnumType.STRING)
     private Set<Authority> authorities;
 
