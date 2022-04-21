@@ -18,6 +18,8 @@ public class User {
     private String password;
 
     @ElementCollection
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Set<Role> roles;
 
