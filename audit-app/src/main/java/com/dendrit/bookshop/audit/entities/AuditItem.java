@@ -2,10 +2,12 @@ package com.dendrit.bookshop.audit.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
+@Table(name = "audit_items")
 public class AuditItem {
 
     @Id
