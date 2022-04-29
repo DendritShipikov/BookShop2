@@ -37,3 +37,5 @@ internal:
   auth:
      name: bookapi
      password: bookapi
+orders-api:
+  key: bookshop.orders

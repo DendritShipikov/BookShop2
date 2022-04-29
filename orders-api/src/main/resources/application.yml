@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    password: qazwsx
+    username: dendrit
+    url: jdbc:postgresql://localhost:5432/bookshop
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+server:
+  port: 8085
+  servlet:
+    context-path: /bookshop/api
+  ssl:
+    key-store: classpath:bookshop.p12
+    key-store-type: PKCS12
+    key-store-password: qazwsx
+    key-alias: bookshop
+jwt:
+  public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
+user-api:
+  base-address: https://localhost:8081/bookshop/api/users
+  trust-store: classpath:bookshop.p12
+  trust-store-password: qazwsx
+book-api:
+  queue: bookshop.orders
+notification-api:
+  queue: bookshop.notification.confirms
+  key: bookshop.notification.requests

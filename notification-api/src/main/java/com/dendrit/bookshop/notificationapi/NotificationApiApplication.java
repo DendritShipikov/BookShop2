@@ -2,6 +2,8 @@ package com.dendrit.bookshop.notificationapi;
 
 import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
 import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvider;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -39,6 +41,11 @@ public class NotificationApiApplication {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+
+    @Bean
+    public MessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 }

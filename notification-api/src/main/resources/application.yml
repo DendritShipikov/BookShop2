@@ -17,3 +17,6 @@ internal:
   auth:
      name: notificationapi
      password: notificationapi
+orders-api:
+  queue: bookshop.notification.requests
+  key: bookshop.notification.confirms

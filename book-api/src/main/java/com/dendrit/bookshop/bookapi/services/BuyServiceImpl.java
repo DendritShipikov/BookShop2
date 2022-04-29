@@ -1,18 +1,23 @@
 package com.dendrit.bookshop.bookapi.services;
 
-import com.dendrit.bookshop.notificationclient.model.Message;
 import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
+import com.dendrit.bookshop.bookapi.security.OrderData;
+import com.dendrit.bookshop.bookapi.security.OrderItemData;
+import com.dendrit.bookshop.bookapi.security.OrderStatus;
 import com.dendrit.bookshop.bookapi.util.UserUtil;
-import com.dendrit.bookshop.notificationclient.client.NotificationClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +30,10 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
-    private NotificationClient notificationClient;
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${orders-api.key}")
+    private String queueName;
 
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
@@ -38,8 +46,8 @@ public class BuyServiceImpl implements BuyService {
     }
 
     @Autowired
-    public void setNotificationClient(NotificationClient notificationClient) {
-        this.notificationClient = notificationClient;
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Override
@@ -54,17 +62,23 @@ public class BuyServiceImpl implements BuyService {
         for (CartItem cartItem : cartItems) {
             bookIdToCount.put(cartItem.getBookId(), cartItem.getBookCount());
         }
+        OrderData orderData = new OrderData();
+        orderData.setOrderItemDataList(new ArrayList<>());
+        orderData.setDate(new Date());
+        orderData.setStatus(OrderStatus.IN_PROCESS);
+        orderData.setUserId(userId);
         for (Book book : books) {
             int count = bookIdToCount.get(book.getId());
             if (count > book.getCount()) throw new IllegalBookCountException("provided bookCount greater then in database");
             book.setCount(book.getCount() - count);
+            OrderItemData orderItemData = new OrderItemData();
+            orderItemData.setBookId(book.getId());
+            orderItemData.setBookCount(count);
+            orderData.getOrderItemDataList().add(orderItemData);
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
-        Message message = new Message();
-        message.setText("Your order");
-        message.setUserMail(userData.getUsername());
-        notificationClient.send(message);
+        rabbitTemplate.convertAndSend(queueName, orderData);
     }
 
 }
