@@ -1,5 +1,4 @@
-
-package util;
+package com.dendrit.bookshop.ordersapi.util;
 
 import com.dendrit.bookshop.ordersapi.data.UserData;
 import org.springframework.security.core.Authentication;

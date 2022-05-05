@@ -1,4 +1,4 @@
-package exceptions;
+package com.dendrit.bookshop.ordersapi.exceptions;
 
 public class OrderNotFoundException extends RuntimeException {
 

@@ -5,7 +5,7 @@ import com.dendrit.bookshop.ordersapi.entities.Order;
 import com.dendrit.bookshop.ordersapi.entities.OrderStatus;
 import com.dendrit.bookshop.ordersapi.mapper.OrderMapper;
 import com.dendrit.bookshop.ordersapi.repositories.OrderRepository;
-import exceptions.OrderNotFoundException;
+import com.dendrit.bookshop.ordersapi.exceptions.OrderNotFoundException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
