@@ -7,6 +7,9 @@ server:
     key-store-type: PKCS12
     key-store-password: qazwsx
     key-alias: bookshop
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
 internal-auth-api:
   base-address: https://localhost:8082/bookshop/api/internal/auth/profile
   trust-store: classpath:bookshop.p12

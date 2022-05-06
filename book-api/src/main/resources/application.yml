@@ -31,6 +31,8 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+  activemq:
+    broker-url: tcp://localhost:61616
 jwt:
   public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
 internal:

@@ -1,14 +1,14 @@
 package com.dendrit.bookshop.ordersapi.services;
 
+import com.dendrit.bookshop.jmsnotificationclient.client.JmsNotificationClient;
+import com.dendrit.bookshop.jmsnotificationclient.data.NotificationRequest;
 import com.dendrit.bookshop.ordersapi.data.OrderData;
 import com.dendrit.bookshop.ordersapi.entities.Order;
 import com.dendrit.bookshop.ordersapi.entities.OrderStatus;
+import com.dendrit.bookshop.ordersapi.exceptions.OrderNotFoundException;
 import com.dendrit.bookshop.ordersapi.mapper.OrderMapper;
 import com.dendrit.bookshop.ordersapi.repositories.OrderRepository;
-import com.dendrit.bookshop.ordersapi.exceptions.OrderNotFoundException;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +21,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     private OrderMapper orderMapper;
 
-    private RabbitTemplate rabbitTemplate;
-
-    @Value("${notification-api.key}")
-    private String queueName;
+    private JmsNotificationClient jmsNotificationClient;
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
@@ -37,8 +34,8 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Autowired
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
+    public void setJmsNotificationClient(JmsNotificationClient jmsNotificationClient) {
+        this.jmsNotificationClient = jmsNotificationClient;
     }
 
     @Override
@@ -47,7 +44,10 @@ public class OrdersServiceImpl implements OrdersService {
         Order order = orderMapper.toOrder(orderData);
         orderRepository.save(order);
         orderData.setId(order.getId());
-        rabbitTemplate.convertAndSend(queueName, orderData);
+        NotificationRequest notificationRequest = new NotificationRequest();
+        notificationRequest.setId(order.getId());
+        notificationRequest.setText("Order id = " + order.getId() + " sent");
+        jmsNotificationClient.sendNotificationRequest(notificationRequest);
         return orderData;
     }
 

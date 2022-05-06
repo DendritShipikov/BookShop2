@@ -8,10 +8,11 @@ services:
       POSTGRES_DB: bookshop
     ports:
       - "5432:5432"
-  rabbitmq:
-    image: rabbitmq:management
+  activemq:
+    image: rmohr/activemq:5.14.3
     ports:
-      - "5672:5672"
+      - "61616:61616"
+      - "8161:8161"
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     environment:

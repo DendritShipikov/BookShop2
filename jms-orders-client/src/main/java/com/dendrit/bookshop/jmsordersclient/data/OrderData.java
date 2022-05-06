@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.notificationapi.data;
+package com.dendrit.bookshop.jmsordersclient.data;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -6,21 +6,16 @@ import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
-import com.dendrit.bookshop.bookapi.security.OrderData;
-import com.dendrit.bookshop.bookapi.security.OrderItemData;
-import com.dendrit.bookshop.bookapi.security.OrderStatus;
 import com.dendrit.bookshop.bookapi.util.UserUtil;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.dendrit.bookshop.jmsordersclient.client.JmsOrdersClient;
+import com.dendrit.bookshop.jmsordersclient.data.OrderData;
+import com.dendrit.bookshop.jmsordersclient.data.OrderItemData;
+import com.dendrit.bookshop.jmsordersclient.data.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +25,7 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
-    private RabbitTemplate rabbitTemplate;
-
-    @Value("${orders-api.key}")
-    private String queueName;
+    private JmsOrdersClient jmsOrdersClient;
 
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
@@ -46,8 +38,8 @@ public class BuyServiceImpl implements BuyService {
     }
 
     @Autowired
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
+    public void setJmsOrdersClient(JmsOrdersClient jmsOrdersClient) {
+        this.jmsOrdersClient = jmsOrdersClient;
     }
 
     @Override
@@ -78,7 +70,7 @@ public class BuyServiceImpl implements BuyService {
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
-        rabbitTemplate.convertAndSend(queueName, orderData);
+        jmsOrdersClient.sendOrder(orderData);
     }
 
 }

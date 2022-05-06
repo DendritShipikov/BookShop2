@@ -1,4 +1,4 @@
-package com.dendrit.bookshop.notificationapi.data;
+package com.dendrit.bookshop.jmsordersclient.data;
 
 public class OrderItemData {
 
