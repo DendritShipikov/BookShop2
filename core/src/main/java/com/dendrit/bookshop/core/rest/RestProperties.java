@@ -10,4 +10,6 @@ public interface RestProperties {
 
     String getTrustStorePassword();
 
+    boolean isEnableHttps();
+
 }

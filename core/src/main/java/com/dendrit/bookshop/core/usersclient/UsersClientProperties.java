@@ -15,6 +15,8 @@ public class UsersClientProperties implements RestProperties {
 
     private String trustStorePassword;
 
+    private boolean enableHttps;
+
     @Override
     public String getBaseAddress() {
         return baseAddress;
@@ -40,5 +42,14 @@ public class UsersClientProperties implements RestProperties {
 
     public void setTrustStorePassword(String trustStorePassword) {
         this.trustStorePassword = trustStorePassword;
+    }
+
+    @Override
+    public boolean isEnableHttps() {
+        return enableHttps;
+    }
+
+    public void setEnableHttps(boolean enableHttps) {
+        this.enableHttps = enableHttps;
     }
 }

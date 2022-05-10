@@ -17,7 +17,7 @@ import javax.net.ssl.SSLContext;
 @EnableConfigurationProperties(UsersClientProperties.class)
 public class UsersClientConfiguration {
 
-    private UsersClientProperties usersClientProperties;
+    private final UsersClientProperties usersClientProperties;
 
     @Autowired
     public UsersClientConfiguration(UsersClientProperties usersClientProperties) {
