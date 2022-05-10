@@ -24,6 +24,9 @@
         <module>notification-client</module>
         <module>authentication-client</module>
         <module>authorization-client</module>
+        <module>orders-api</module>
+        <module>jms-orders-client</module>
+        <module>jms-notification-client</module>
     </modules>
 
 	<properties>

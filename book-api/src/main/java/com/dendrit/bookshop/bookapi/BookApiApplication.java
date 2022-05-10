@@ -8,6 +8,7 @@ import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvid
 import com.dendrit.bookshop.common.audit.EnableAudit;
 import com.dendrit.bookshop.notificationclient.client.NotificationClient;
 import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
+import com.dendrit.bookshop.jmsordersclient.client.JmsOrdersClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +30,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         AuthenticationClientRestProperties.class,
         AuthenticationClient.class,
         AuthorizationClient.class,
-        JwtAuthenticationProvider.class
+        JwtAuthenticationProvider.class,
+        JmsOrdersClient.class
 })
 public class BookApiApplication {
 
@@ -44,4 +46,5 @@ public class BookApiApplication {
                 .apis(RequestHandlerSelectors.basePackage("com.dendrit.bookshop.bookapi.controllers"))
                 .build();
     }
+
 }
