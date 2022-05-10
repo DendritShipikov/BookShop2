@@ -8,6 +8,9 @@ server:
     key-store-password: qazwsx
     key-alias: bookshop
 bookshop:
+  orders-api:
+    client:
+      destination-name: bookshop.orders
   user-api:
     client:
       base-address: https://localhost:8081/bookshop/api/users
@@ -15,18 +18,6 @@ bookshop:
       trust-store-password: qazwsx
     authentication:
       public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
-user-api:
-  base-address: https://localhost:8081/bookshop/api/users
-  trust-store: classpath:bookshop.p12
-  trust-store-password: qazwsx
-internal-auth-api:
-  base-address: https://localhost:8082/bookshop/api/internal/auth
-  trust-store: classpath:bookshop.p12
-  trust-store-password: qazwsx
-notification-api:
-  base-address: https://localhost:8083/bookshop/api
-  trust-store: classpath:bookshop.p12
-  trust-store-password: qazwsx
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/bookshop
@@ -39,9 +30,5 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
-jwt:
-  public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
-internal:
-  auth:
-     name: bookapi
-     password: bookapi
+  activemq:
+    broker-url: tcp://localhost:61616

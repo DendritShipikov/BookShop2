@@ -6,11 +6,16 @@ import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
 import com.dendrit.bookshop.bookapi.util.UserUtil;
+import com.dendrit.bookshop.core.ordersclient.OrdersClient;
+import com.dendrit.bookshop.core.ordersclient.data.OrderData;
+import com.dendrit.bookshop.core.ordersclient.data.OrderItemData;
+import com.dendrit.bookshop.core.ordersclient.data.OrderStatus;
 import com.dendrit.bookshop.core.usersclient.data.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +28,8 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
+    private OrdersClient ordersClient;
+
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -31,6 +38,11 @@ public class BuyServiceImpl implements BuyService {
     @Autowired
     public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    @Autowired
+    public void setOrdersClient(OrdersClient ordersClient) {
+        this.ordersClient = ordersClient;
     }
 
     @Override
@@ -45,13 +57,22 @@ public class BuyServiceImpl implements BuyService {
         for (CartItem cartItem : cartItems) {
             bookIdToCount.put(cartItem.getBookId(), cartItem.getBookCount());
         }
+        OrderData orderData = new OrderData();
+        orderData.setDate(new Date());
+        orderData.setStatus(OrderStatus.IN_PROCESS);
+        orderData.setUserId(userId);
         for (Book book : books) {
             int count = bookIdToCount.get(book.getId());
             if (count > book.getCount()) throw new IllegalBookCountException("provided bookCount greater then in database");
+            OrderItemData orderItemData = new OrderItemData();
+            orderItemData.setBookId(book.getId());
+            orderItemData.setBookCount(count);
+            orderData.getOrderItemDataList().add(orderItemData);
             book.setCount(book.getCount() - count);
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
+        ordersClient.sendOrder(orderData);
     }
 
 }

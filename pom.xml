@@ -21,6 +21,7 @@
         <module>common</module>
         <module>audit-app</module>
         <module>core</module>
+        <module>orders-api</module>
     </modules>
 
 	<properties>

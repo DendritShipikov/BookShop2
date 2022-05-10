@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    password: qazwsx
+    username: dendrit
+    url: jdbc:postgresql://localhost:5432/bookshop
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  activemq:
+    broker-url: tcp://localhost:61616
+server:
+  port: 8085
+  servlet:
+    context-path: /bookshop/api
+  ssl:
+    key-store: classpath:bookshop.p12
+    key-store-type: PKCS12
+    key-store-password: qazwsx
+    key-alias: bookshop

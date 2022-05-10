@@ -1,6 +1,8 @@
 package com.dendrit.bookshop.bookapi;
 
 import com.dendrit.bookshop.common.audit.EnableAudit;
+import com.dendrit.bookshop.core.ordersclient.OrdersClientConfiguration;
+import com.dendrit.bookshop.core.usersclient.UsersClientConfiguration;
 import com.dendrit.bookshop.core.usersclient.security.UsersSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +18,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 @EnableSwagger2
 @EnableAudit
-@Import({UsersSecurityConfiguration.class})
+@Import({
+        UsersClientConfiguration.class,
+        UsersSecurityConfiguration.class,
+        OrdersClientConfiguration.class
+})
 public class BookApiApplication {
 
     public static void main(String[] args) {
