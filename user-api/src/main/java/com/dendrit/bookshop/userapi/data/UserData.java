@@ -12,13 +12,13 @@ public class UserData {
     @ApiModelProperty(notes = "Username")
     private String username;
 
-    @ApiModelProperty(notes = "Set of roles")
-    private Set<Role> roles;
+    @ApiModelProperty(notes = "Set of authorities")
+    private Set<Role> authorities;
 
-    public UserData(Long id, String username, Set<Role> roles) {
+    public UserData(Long id, String username, Set<Role> authorities) {
         this.id = id;
         this.username = username;
-        this.roles = roles;
+        this.authorities = authorities;
     }
 
     public String getUsername() {
@@ -29,12 +29,12 @@ public class UserData {
         this.username = username;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setAuthorities(Set<Role> authorities) {
+        this.authorities = authorities;
     }
 
     public Long getId() {

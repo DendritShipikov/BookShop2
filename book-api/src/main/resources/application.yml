@@ -7,6 +7,14 @@ server:
     key-store-type: PKCS12
     key-store-password: qazwsx
     key-alias: bookshop
+bookshop:
+  user-api:
+    client:
+      base-address: https://localhost:8081/bookshop/api/users
+      trust-store: classpath:bookshop.p12
+      trust-store-password: qazwsx
+    authentication:
+      public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
 user-api:
   base-address: https://localhost:8081/bookshop/api/users
   trust-store: classpath:bookshop.p12

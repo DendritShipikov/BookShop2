@@ -18,12 +18,9 @@
 		<module>user-api</module>
 		<module>book-api</module>
         <module>notification-api</module>
-        <module>internal-auth-api</module>
         <module>common</module>
         <module>audit-app</module>
-        <module>notification-client</module>
-        <module>authentication-client</module>
-        <module>authorization-client</module>
+        <module>core</module>
     </modules>
 
 	<properties>

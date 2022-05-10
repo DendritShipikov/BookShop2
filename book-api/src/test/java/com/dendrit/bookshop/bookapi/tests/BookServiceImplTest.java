@@ -2,17 +2,16 @@ package com.dendrit.bookshop.bookapi.tests;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
 import com.dendrit.bookshop.bookapi.data.BookDataPage;
-import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.exceptions.BookNotFoundException;
 import com.dendrit.bookshop.bookapi.mappers.BookMapper;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.services.BookServiceImpl;
+import com.dendrit.bookshop.core.usersclient.data.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;

@@ -1,13 +1,13 @@
 package com.dendrit.bookshop.bookapi.tests;
 
 import com.dendrit.bookshop.bookapi.data.BookData;
-import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.exceptions.BookNotFoundException;
 import com.dendrit.bookshop.bookapi.exceptions.UserHasNoAuthorityException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.services.BookServiceImpl;
 import com.dendrit.bookshop.bookapi.services.BookServiceProxy;
+import com.dendrit.bookshop.core.usersclient.data.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

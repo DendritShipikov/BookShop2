@@ -1,14 +1,12 @@
 package com.dendrit.bookshop.bookapi.services;
 
-import com.dendrit.bookshop.notificationclient.model.Message;
-import com.dendrit.bookshop.bookapi.data.UserData;
 import com.dendrit.bookshop.bookapi.entities.Book;
 import com.dendrit.bookshop.bookapi.entities.CartItem;
 import com.dendrit.bookshop.bookapi.exceptions.IllegalBookCountException;
 import com.dendrit.bookshop.bookapi.repositories.BookRepository;
 import com.dendrit.bookshop.bookapi.repositories.CartItemRepository;
 import com.dendrit.bookshop.bookapi.util.UserUtil;
-import com.dendrit.bookshop.notificationclient.client.NotificationClient;
+import com.dendrit.bookshop.core.usersclient.data.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +23,6 @@ public class BuyServiceImpl implements BuyService {
 
     private BookRepository bookRepository;
 
-    private NotificationClient notificationClient;
-
     @Autowired
     public void setCartItemRepository(CartItemRepository cartItemRepository) {
         this.cartItemRepository = cartItemRepository;
@@ -35,11 +31,6 @@ public class BuyServiceImpl implements BuyService {
     @Autowired
     public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-    }
-
-    @Autowired
-    public void setNotificationClient(NotificationClient notificationClient) {
-        this.notificationClient = notificationClient;
     }
 
     @Override
@@ -61,10 +52,6 @@ public class BuyServiceImpl implements BuyService {
         }
         bookRepository.saveAll(books);
         cartItemRepository.deleteAllByUserId(userId);
-        Message message = new Message();
-        message.setText("Your order");
-        message.setUserMail(userData.getUsername());
-        notificationClient.send(message);
     }
 
 }

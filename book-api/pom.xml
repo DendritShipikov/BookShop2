@@ -38,17 +38,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.dendrit</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dendrit</groupId>
 			<artifactId>common</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.dendrit</groupId>
-			<artifactId>notification-client</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.dendrit</groupId>
-			<artifactId>authorization-client</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>

@@ -1,7 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 3
-      author: dendrit
-      changes:
-        - sqlFile:
-            path: classpath:db/init.sql

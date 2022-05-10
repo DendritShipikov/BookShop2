@@ -1,6 +1,6 @@
 package com.dendrit.bookshop.bookapi.util;
 
-import com.dendrit.bookshop.bookapi.data.UserData;
+import com.dendrit.bookshop.core.usersclient.data.UserData;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

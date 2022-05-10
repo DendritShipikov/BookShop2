@@ -1,13 +1,7 @@
 package com.dendrit.bookshop.bookapi;
 
-import com.dendrit.bookshop.authenticationclient.client.AuthenticationClient;
-import com.dendrit.bookshop.authenticationclient.client.AuthenticationClientRestProperties;
-import com.dendrit.bookshop.authenticationclient.client.TokenHolderImpl;
-import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
-import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvider;
 import com.dendrit.bookshop.common.audit.EnableAudit;
-import com.dendrit.bookshop.notificationclient.client.NotificationClient;
-import com.dendrit.bookshop.notificationclient.client.NotificationClientRestProperties;
+import com.dendrit.bookshop.core.usersclient.security.UsersSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,15 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableWebMvc
 @EnableSwagger2
 @EnableAudit
-@Import({
-        NotificationClient.class,
-        NotificationClientRestProperties.class,
-        TokenHolderImpl.class,
-        AuthenticationClientRestProperties.class,
-        AuthenticationClient.class,
-        AuthorizationClient.class,
-        JwtAuthenticationProvider.class
-})
+@Import({UsersSecurityConfiguration.class})
 public class BookApiApplication {
 
     public static void main(String[] args) {

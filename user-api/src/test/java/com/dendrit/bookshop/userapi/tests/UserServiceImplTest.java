@@ -44,7 +44,7 @@ public class UserServiceImplTest {
         UserData userData = userService.getUserById(1L);
         Assertions.assertEquals(userData.getId(), 1L);
         Assertions.assertEquals(userData.getUsername(), "user1");
-        Assertions.assertEquals(userData.getRoles(), Set.of(Role.USER));
+        Assertions.assertEquals(userData.getAuthorities(), Set.of(Role.USER));
         Mockito.verify(userRepository).findById(1L);
     }
 
@@ -70,7 +70,7 @@ public class UserServiceImplTest {
         UserData userData = userService.registration(new UserRegistrationForm("user2", "2", Set.of(Role.USER)));
         Assertions.assertEquals(userData.getId(), 2L);
         Assertions.assertEquals(userData.getUsername(), "user2");
-        Assertions.assertEquals(userData.getRoles(), Set.of(Role.USER));
+        Assertions.assertEquals(userData.getAuthorities(), Set.of(Role.USER));
         Mockito.verify(userRepository).findByUsername("user2");
         Mockito.verify(passwordEncoder).encode("2");
     }

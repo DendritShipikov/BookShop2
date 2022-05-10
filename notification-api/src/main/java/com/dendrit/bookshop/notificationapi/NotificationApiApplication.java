@@ -1,7 +1,6 @@
 package com.dendrit.bookshop.notificationapi;
 
-import com.dendrit.bookshop.authorizationclient.client.AuthorizationClient;
-import com.dendrit.bookshop.authorizationclient.security.JwtAuthenticationProvider;
+import com.dendrit.bookshop.core.usersclient.security.UsersSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Properties;
 
 @SpringBootApplication
-@Import({AuthorizationClient.class, JwtAuthenticationProvider.class})
+@Import({UsersSecurityConfiguration.class})
 public class NotificationApiApplication {
 
     public static void main(String[] args) {
