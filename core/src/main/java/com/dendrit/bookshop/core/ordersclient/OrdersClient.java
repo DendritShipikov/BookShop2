@@ -24,7 +24,11 @@ public class OrdersClient extends AbstractJmsAdapter {
     }
 
     public void sendOrder(OrderData orderData) {
-        super.send(ordersClientProperties.getDestinationName(), orderData);
+        super.send(ordersClientProperties.getOrdersQueue(), orderData);
+    }
+
+    public void sendConfirm(Long id) {
+        super.send(ordersClientProperties.getConfirmsQueue(), id);
     }
 
 }

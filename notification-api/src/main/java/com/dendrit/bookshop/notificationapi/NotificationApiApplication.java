@@ -1,5 +1,6 @@
 package com.dendrit.bookshop.notificationapi;
 
+import com.dendrit.bookshop.core.ordersclient.OrdersClientConfiguration;
 import com.dendrit.bookshop.core.usersclient.security.UsersSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Properties;
 
 @SpringBootApplication
-@Import({UsersSecurityConfiguration.class})
+@Import({
+        UsersSecurityConfiguration.class,
+        OrdersClientConfiguration.class
+})
 public class NotificationApiApplication {
 
     public static void main(String[] args) {
@@ -33,11 +37,6 @@ public class NotificationApiApplication {
         properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.debug", true);
         return javaMailSender;
-    }
-
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
     }
 
 }

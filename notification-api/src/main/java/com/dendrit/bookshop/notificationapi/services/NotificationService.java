@@ -1,9 +1,9 @@
 package com.dendrit.bookshop.notificationapi.services;
 
-import com.dendrit.bookshop.notificationapi.data.Message;
+import com.dendrit.bookshop.core.notificationclient.data.NotificationRequest;
 
 public interface NotificationService {
 
-    void sendMessage(Message message);
+    void sendNotification(NotificationRequest notificationRequest);
 
 }

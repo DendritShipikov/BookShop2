@@ -19,6 +19,9 @@ server:
     key-store-password: qazwsx
     key-alias: bookshop
 bookshop:
+  notification-api:
+    client:
+      notification-queue: bookshop.notification.requests
   user-api:
     client:
       enable-https: true

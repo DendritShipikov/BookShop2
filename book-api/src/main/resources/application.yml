@@ -10,7 +10,7 @@ server:
 bookshop:
   orders-api:
     client:
-      destination-name: bookshop.orders
+      orders-queue: bookshop.orders
   user-api:
     client:
       enable-https: true

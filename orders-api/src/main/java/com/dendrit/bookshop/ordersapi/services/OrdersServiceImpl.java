@@ -1,5 +1,9 @@
 package com.dendrit.bookshop.ordersapi.services;
 
+import com.dendrit.bookshop.core.notificationclient.NotificationClient;
+import com.dendrit.bookshop.core.notificationclient.data.NotificationRequest;
+import com.dendrit.bookshop.core.usersclient.UsersClient;
+import com.dendrit.bookshop.core.usersclient.data.UserData;
 import com.dendrit.bookshop.ordersapi.data.OrderData;
 import com.dendrit.bookshop.ordersapi.entities.Order;
 import com.dendrit.bookshop.ordersapi.entities.OrderStatus;
@@ -19,6 +23,10 @@ public class OrdersServiceImpl implements OrdersService {
 
     private OrderMapper orderMapper;
 
+    private NotificationClient notificationClient;
+
+    private UsersClient usersClient;
+
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -29,12 +37,28 @@ public class OrdersServiceImpl implements OrdersService {
         this.orderMapper = orderMapper;
     }
 
+    @Autowired
+    public void setNotificationClient(NotificationClient notificationClient) {
+        this.notificationClient = notificationClient;
+    }
+
+    @Autowired
+    public void setUsersClient(UsersClient usersClient) {
+        this.usersClient = usersClient;
+    }
+
     @Override
     @Transactional
     public OrderData saveOrder(OrderData orderData) {
         Order order = orderMapper.toOrder(orderData);
         orderRepository.save(order);
         orderData.setId(order.getId());
+        NotificationRequest notificationRequest = new NotificationRequest();
+        UserData userData = usersClient.getUserById(orderData.getUserId());
+        notificationRequest.setUsername(userData.getUsername());
+        notificationRequest.setText("Order id = " + order.getId());
+        notificationRequest.setId(order.getId());
+        notificationClient.sendNotificationRequest(notificationRequest);
         return orderData;
     }
 

@@ -7,13 +7,18 @@ server:
     key-store-type: PKCS12
     key-store-password: qazwsx
     key-alias: bookshop
-internal-auth-api:
-  base-address: https://localhost:8082/bookshop/api/internal/auth/profile
-  trust-store: classpath:bookshop.p12
-  trust-store-password: qazwsx
-jwt:
-  public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
-internal:
-  auth:
-     name: notificationapi
-     password: notificationapi
+bookshop:
+  orders-api:
+    client:
+      confirms-queue: bookshop.notification.confirms
+  user-api:
+    client:
+      enable-https: true
+      base-address: https://localhost:8081/bookshop/api/users
+      trust-store: classpath:bookshop.p12
+      trust-store-password: qazwsx
+    authentication:
+      public-key: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAECEbbXjOOEGCd21oyWBtbnpSQjpxXr7DVT6551P8dX6kgK+bouO1ykePu5V6aFRUChcSnRBnHFU3PvLtL2nQ56w==
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616

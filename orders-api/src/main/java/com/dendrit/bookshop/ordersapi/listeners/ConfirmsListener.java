@@ -1,6 +1,5 @@
 package com.dendrit.bookshop.ordersapi.listeners;
 
-import com.dendrit.bookshop.ordersapi.data.OrderData;
 import com.dendrit.bookshop.ordersapi.services.OrdersService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,7 @@ import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
 @Component
-public class OrdersListener {
+public class ConfirmsListener {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -23,13 +22,13 @@ public class OrdersListener {
         this.ordersService = ordersService;
     }
 
-    @JmsListener(destination = "bookshop.orders")
-    public void saveOrder(TextMessage message) {
+    @JmsListener(destination = "bookshop.notification.confirms")
+    public void acceptConfirm(TextMessage message) {
         try {
-            OrderData orderData = objectMapper.readValue(message.getText(), OrderData.class);
-            ordersService.saveOrder(orderData);
+            Long id = objectMapper.readValue(message.getText(), Long.TYPE);
+            ordersService.updateById(id);
         } catch (JsonProcessingException | JMSException e) {
-            throw new RuntimeException("Exception when converting message from JSON", e);
+            throw new RuntimeException("Exception while converting message from JSON", e);
         }
     }
 

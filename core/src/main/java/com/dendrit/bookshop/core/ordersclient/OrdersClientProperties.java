@@ -7,13 +7,23 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "bookshop.orders-api.client")
 public class OrdersClientProperties {
 
-    private String destinationName;
+    private String ordersQueue;
 
-    public String getDestinationName() {
-        return destinationName;
+    private String confirmsQueue;
+
+    public String getOrdersQueue() {
+        return ordersQueue;
     }
 
-    public void setDestinationName(String destinationName) {
-        this.destinationName = destinationName;
+    public void setOrdersQueue(String ordersQueue) {
+        this.ordersQueue = ordersQueue;
+    }
+
+    public String getConfirmsQueue() {
+        return confirmsQueue;
+    }
+
+    public void setConfirmsQueue(String confirmsQueue) {
+        this.confirmsQueue = confirmsQueue;
     }
 }
